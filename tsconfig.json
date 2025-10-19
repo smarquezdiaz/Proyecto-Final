@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "ES6",            // Specifies the target ECMAScript version
+    "module": "commonjs",    // Sets the module code generation to 'commonjs'
+    "outDir": "./dist",            // Redirects output structure to the 'dist' directory
+    "rootDir": "./src",            // Specifies the root directory of input files
+    "strict": true,        // Enables strict type-checking options
+    "esModuleInterop": true   // Enables emit interoperability between CommonJS and ES Modules
+  },
+  "include": ["./src"]        // Includes all TypeScript files in the 'src' directory
+}
