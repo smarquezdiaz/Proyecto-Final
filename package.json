@@ -11,8 +11,11 @@
   "license": "ISC",
   "dependencies": {
     "@playwright/test": "^1.56.1",
+    "@types/winston": "^2.4.4",
     "dotenv": "^17.2.3",
-    "path": "^0.12.7"
+    "logform": "^2.7.0",
+    "path": "^0.12.7",
+    "winston": "^3.18.3"
   },
   "devDependencies": {
     "@types/node": "^24.9.2"

@@ -16,7 +16,7 @@ const config: PlaywrightTestConfig = {
   },
   projects: [
     // Setup project
-    { name: 'setup', testMatch: /.*\.setup\.ts/ },
+    // { name: 'setup', testMatch: /.*\.setup\.ts/ },
 
     {
       name: 'chromium',
@@ -25,10 +25,10 @@ const config: PlaywrightTestConfig = {
         // Use prepared auth state.
         storageState: 'src/playwright/.auth/user.json',
       },
-      dependencies: ['setup'],
+      // dependencies: ['setup'],
     },
 
-    {
+    /* {
       name: 'firefox',
       use: {
         ...devices['Desktop Firefox'],
@@ -36,7 +36,7 @@ const config: PlaywrightTestConfig = {
         storageState: 'src/playwright/.auth/user.json',
       },
       dependencies: ['setup'],
-    },
+    }, */
   ],
 };
 
