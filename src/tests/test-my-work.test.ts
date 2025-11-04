@@ -1,72 +1,151 @@
-import { test, expect } from '@playwright/test';
+import { Status } from '../enums/statusEnum';
+import { test } from '../fixtures/fixtures'
 import { Logger } from '../helper/logger/Logger';
 
-test('crear una tarea exitosa', async ({page}) => {
-    await page.goto('https://srfgsdrges-team.monday.com/my_work');
-    await page.getByRole('button', {name: 'Elemento nuevo'}).click();
-    await expect(page.locator('#pulse-card-dialog-component')).toBeVisible();
-    await page.getByRole('button', {name: 'Crear Tarea'}).click();
+/**
+ * TC019 crear una tarea exitosa
+ * @param campo - The Playwright Page object.
+ * @param valor - The Playwright Browser object.
+ */
+
+test('TC019 - crear una tarea exitosa',async ({page, myWorkPage}) => {
+    Logger.initTest('rear una tarea exitosa');
+    Logger.step('Creando tarea')
+    await myWorkPage.createElement();
+    Logger.termTest('tarea creada exitosamente');
 });
 
 // TITULO
 
-test('crear una tarea con titulo de mas de 255 caracteres', async ({page}) => {
-    await page.goto('https://srfgsdrges-team.monday.com/my_work');
-    await page.getByRole('button', {name: 'Elemento nuevo'}).click();
-    const campo = await page.locator('input[value="Agregar Tarea"]');
-    await campo.fill('a'.repeat(256));
-    await expect(page.locator('#pulse-card-dialog-component')).toBeVisible();
-    await page.getByRole('button', {name: 'Crear Tarea'}).click();
+/**
+ * TC020 Crear una tarea con un titulo valido
+ * @param campo - The Playwright Page object.
+ * @param valor - The Playwright Browser object.
+ */
+
+test('TC020 - crear una tarea con un titulo valido', async ({page, myWorkPage}) => {
+    Logger.initTest('crear una tarea con un titulo valido');
+    Logger.step('Creando tarea')
+    await myWorkPage.createElement('titulo bueno');
+    Logger.termTest('tarea creada exitosamente');
 });
 
-test('crear una tarea con titulo vacio', async ({page}) => {
-    await page.goto('https://srfgsdrges-team.monday.com/my_work');
-    await page.getByRole('button', {name: 'Elemento nuevo'}).click();
-    const campo = await page.locator('input[value="Agregar Tarea"]');
-    await campo.fill('');
-    await expect(page.locator('#pulse-card-dialog-component')).toBeVisible();
-    await page.getByRole('button', {name: 'Crear Tarea'}).click();
+/**
+ * TC021 Crear una tarea con un titulo de mas de 255 caracteres
+ * @param campo - The Playwright Page object.
+ * @param valor - The Playwright Browser object.
+ */
+
+test('TC021 - crear una tarea con un titulo de mas de 255 caracteres', async ({page, myWorkPage}) => {
+    Logger.initTest('crear una tarea con un titulo de mas de 255 caracteres');
+    Logger.step('Creando tarea')
+    await myWorkPage.createElement('a'.repeat(256));
+    Logger.termTest('tarea creada exitosamente');
 });
+
+/**
+ * TC022 Crear una tarea con un titulo vacio
+ * @param campo - The Playwright Page object.
+ * @param valor - The Playwright Browser object.
+ */
+
+test('TC022 - crear una tarea con un titulo vacio', async ({page, myWorkPage}) => {
+    Logger.initTest('crear una tarea con un titulo vacio');
+    Logger.step('Creando tarea')
+    await myWorkPage.createElement('');
+    Logger.termTest('tarea creada exitosamente');
+});
+
+/**
+ * TC023 Crear una tarea con un titulo con 255 caracteres
+ * @param campo - The Playwright Page object.
+ * @param valor - The Playwright Browser object.
+ */
+
+test('TC023 - crear una tarea con un titulo con 255 caracteres', async ({page, myWorkPage}) => {
+    Logger.initTest('crear una tarea con un titulo con 255 caracteres');
+    Logger.step('Creando tarea')
+    await myWorkPage.createElement('a'.repeat(255));
+    Logger.termTest('tarea creada exitosamente');
+});
+
+/**
+ * TC024 Crear una tarea con un titulo con 1 caractere
+ * @param campo - The Playwright Page object.
+ * @param valor - The Playwright Browser object.
+ */
+
+test('TC024 - crear una tarea con un titulo con 1 caracter', async ({page, myWorkPage}) => {
+    Logger.initTest('crear una tarea con un titulo con 1 caracter');
+    Logger.step('Creando tarea')
+    await myWorkPage.createElement('a');
+    Logger.termTest('tarea creada exitosamente');
+});
+
 
 // Vencimiento 
 
-test('crear una tarea con fecha en el pasado', async ({page}) => {
+/**
+ * TC025 crear una tarea con fecha en el pasado
+ * @param campo - The Playwright Page object.
+ * @param valor - The Playwright Browser object.
+ */
+
+test('TC025 - crear una tarea con fecha en el pasado', async ({page, myWorkPage}) => {
     Logger.initTest('crear una tarea con fecha en el pasado');
-    Logger.step(`Navegando a la página: https://srfgsdrges-team.monday.com/my_work`);
-    await page.goto('https://srfgsdrges-team.monday.com/my_work');
-    await page.getByRole('button', {name: 'Elemento nuevo'}).click();
-     const campo = await page.locator('input[value="Agregar Tarea"]');
-    await campo.fill('fecha pasada');
-    await page.locator('.cell-component').nth(3).click();
-    await expect(page.getByTestId('dialog')).toBeVisible();
-    const today = new Date();
-    const day = today.getDay();
-    const dayForSelect = day - 1;
-    await page.getByRole('button', {name: 'Crear Tarea'}).click();
-    await expect(page.getByText('fecha pasada')).toBeVisible();
+    Logger.step('Creando tarea')
+    await myWorkPage.createElement('fecha pasada', '2025-10-04');
+    Logger.termTest('tarea creada exitosamente');
 });
 
 // Estado
 
-test('crear una tarea con estado en curso',  { tag: ['@smoke'] },async ({page}) => {
-    await page.goto('https://srfgsdrges-team.monday.com/my_work');
-    await page.getByRole('button', {name: 'Elemento nuevo'}).click();
-    const campo = await page.locator('input[value="Agregar Tarea"]');
-    await campo.fill('estado curso');
-    await page.locator('.pulse-card-cell-wrapper-component:has-text("No iniciado")').click();
-    await page.locator('text="En curso"').click();
-    await page.getByRole('button', {name: 'Crear Tarea'}).click();
-    await expect(page.getByText('estado curso')).toBeVisible();
+/**
+ * TC026 crear una tarea con estado en curso'
+ * @param campo - The Playwright Page object.
+ * @param valor - The Playwright Browser object.
+ */
+
+test('TC026 - crear una tarea con estado en curso',async ({page, myWorkPage}) => {
+    Logger.initTest('crear una tarea con estado en curso');
+    Logger.step('Creando tarea')
+    await myWorkPage.createElement('estado en curso', undefined, Status.InProgress);
+    Logger.termTest('tarea creada exitosamente');
+});
+
+/**
+ * TC027 crear una tarea con estado listo'
+ * @param campo - The Playwright Page object.
+ * @param valor - The Playwright Browser object.
+ */
+
+test('TC027 - crear una tarea con estado listo',async ({page, myWorkPage}) => {
+    Logger.initTest('crear una tarea con estado listo');
+    Logger.step('Creando tarea')
+    await myWorkPage.createElement('estado listo', undefined, Status.Done);
+    Logger.termTest('tarea creada exitosamente');
+});
+
+/**
+ * TC028 crear una tarea con estado detenido'
+ * @param campo - The Playwright Page object.
+ * @param valor - The Playwright Browser object.
+ */
+
+test('TC028 - crear una tarea con estado detenido',async ({page, myWorkPage}) => {
+    Logger.initTest('crear una tarea con estado detenido');
+    Logger.step('Creando tarea')
+    await myWorkPage.createElement('estado detenido', undefined, Status.Stopped);
+    Logger.termTest('tarea creada exitosamente');
 });
 
 
 
-// aplicar limite superior? 
+
 
 // bug fechas manuales 1800
 // bug grupo completado pero estado no iniciado
 // probar combinaciones de grupos y estados
-// limite caracteres , titulo vacio, titulo largo, 
 // al crear una tarea me lleva al 28 de marzo xd
 
 /* test('test moviendo slots', async ({ page }) => {
@@ -75,5 +154,3 @@ test('crear una tarea con estado en curso',  { tag: ['@smoke'] },async ({page}) 
     tarea.dragTo(areaFecha);
     await page.waitForTimeout(3000);
 }); */
-
-// test.fail() 

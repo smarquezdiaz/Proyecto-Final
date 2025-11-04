@@ -1,9 +1,9 @@
-import { Page } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 import { BasePage } from "./BasePage";
 
 export class ProfilePage extends BasePage {
-    menu: any;
-    profileMenu: any;
+    menu: Locator;
+    profileMenu: Locator;
 
     constructor(page: Page) {
         super(page);
