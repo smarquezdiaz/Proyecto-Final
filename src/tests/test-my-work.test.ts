@@ -13,7 +13,6 @@ test('crear una tarea exitosa', async ({page}) => {
 test('crear una tarea con titulo de mas de 255 caracteres', async ({page}) => {
     await page.goto('https://srfgsdrges-team.monday.com/my_work');
     await page.getByRole('button', {name: 'Elemento nuevo'}).click();
-    // await page.locator('#v pulse-attribute-value-text').click();
     const campo = await page.locator('input[value="Agregar Tarea"]');
     await campo.fill('a'.repeat(256));
     await expect(page.locator('#pulse-card-dialog-component')).toBeVisible();
@@ -29,7 +28,7 @@ test('crear una tarea con titulo vacio', async ({page}) => {
     await page.getByRole('button', {name: 'Crear Tarea'}).click();
 });
 
-// FECHA 
+// Vencimiento 
 
 test('crear una tarea con fecha en el pasado', async ({page}) => {
     Logger.initTest('crear una tarea con fecha en el pasado');
@@ -44,15 +43,20 @@ test('crear una tarea con fecha en el pasado', async ({page}) => {
     const day = today.getDay();
     const dayForSelect = day - 1;
     await page.getByRole('button', {name: 'Crear Tarea'}).click();
+    await expect(page.getByText('fecha pasada')).toBeVisible();
 });
+
+// Estado
 
 test('crear una tarea con estado en curso',  { tag: ['@smoke'] },async ({page}) => {
     await page.goto('https://srfgsdrges-team.monday.com/my_work');
     await page.getByRole('button', {name: 'Elemento nuevo'}).click();
     const campo = await page.locator('input[value="Agregar Tarea"]');
     await campo.fill('estado curso');
-    await page.locator('#pulse-card-wrapper-component-pulseCard_1').click();
+    await page.locator('.pulse-card-cell-wrapper-component:has-text("No iniciado")').click();
+    await page.locator('text="En curso"').click();
     await page.getByRole('button', {name: 'Crear Tarea'}).click();
+    await expect(page.getByText('estado curso')).toBeVisible();
 });
 
 

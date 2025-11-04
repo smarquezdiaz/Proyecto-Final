@@ -10,7 +10,7 @@ const config: PlaywrightTestConfig = {
   timeout: 30000,
   retries: 1,
   use: {
-    headless: true,
+    headless: false,
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
   },
