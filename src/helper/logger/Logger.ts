@@ -74,11 +74,11 @@ export class Logger {
   }
 
   static initTest(name: string): void {
-    this.logger.info(`-- Start Test: ${name}`);
+    this.logger.info(`-- Iniciando Test: ${name}`);
   }
 
   static termTest(name: string): void {
-    this.logger.info(`-- End Test: ${name}`);
+    this.logger.info(`-- Test Terminado: ${name}`);
     this.logger.info(SetupConstants.LOGGER_LINE_SEPARATOR);
   }
 }
