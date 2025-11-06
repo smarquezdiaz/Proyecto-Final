@@ -1,7 +1,6 @@
 import { Page } from "@playwright/test";
 import { BasePage } from "./BasePage";
-import { Status } from '../enums/statusEnum'
-import { stat } from "fs";
+import { expect } from '@playwright/test';
 
 export class MyWorkPage extends BasePage {
     addElementBtn: any;
@@ -10,6 +9,11 @@ export class MyWorkPage extends BasePage {
     dateField: any;
     dateDialog: any;
     statusField: any;
+    // taskOptionBtn: any;
+    addSubelementBtn: any;
+    taskContainer: any;
+    listSubelements: any;
+    lastSubelement: any;
     constructor(page: Page) {
         super(page);
         this.addElementBtn = page.getByRole('button', {name: 'Elemento nuevo'});
@@ -18,6 +22,11 @@ export class MyWorkPage extends BasePage {
         this.dateField = page.locator('.cell-component').nth(3);
         this.dateDialog = page.getByTestId('dialog');
         this.statusField = page.locator('.pulse-card-cell-wrapper-component:has-text("No iniciado")');
+        // this.taskOptionBtn = page.locator(('button[aria-label="Más opciones para Agregar tarea xd"]'));
+        this.addSubelementBtn = page.getByTestId('menu-item_7');
+        this.taskContainer = page.locator('.nameCellContentContainer--A5D3x').filter({ hasText: 'Agregar tarea xd' });
+        this.listSubelements = this.taskContainer.getByTestId('clickable');
+        this.lastSubelement = page.locator('.pulse-item').last();
     }
 
     async goto(url: string): Promise<void> {
@@ -48,5 +57,17 @@ export class MyWorkPage extends BasePage {
         if (title) {
             await this.isVisible(this.page.getByText(title));
         }
+    }
+
+    async createSubelement(title?: string) {
+        await this.isVisible(this.page.locator(('button[aria-label="Más opciones para Agregar tarea xd"]')));
+        const taskOptionBtn = this.page.locator(('button[aria-label="Más opciones para Agregar tarea xd"]'));
+        this.click(taskOptionBtn);
+        await this.page.getByTestId('menu-item_7').click();
+        this.isVisible(this.listSubelements);
+        this.click(this.listSubelements);
+        this.isVisible(this.lastSubelement);
+        this.lastSubelement.click({force: true});
+        await this.lastSubelement.click();
     }
 }

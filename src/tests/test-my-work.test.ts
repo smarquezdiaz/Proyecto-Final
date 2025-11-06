@@ -1,6 +1,7 @@
 import { Status } from '../enums/statusEnum';
 import { test } from '../fixtures/fixtures'
 import { Logger } from '../helper/logger/Logger';
+import { expect } from '@playwright/test';
 
 /**
  * TC019 crear una tarea exitosa
@@ -136,6 +137,19 @@ test('TC028 - crear una tarea con estado detenido',async ({page, myWorkPage}) =>
     Logger.initTest('crear una tarea con estado detenido');
     Logger.step('Creando tarea')
     await myWorkPage.createElement('estado detenido', undefined, Status.Stopped);
+    Logger.termTest('tarea creada exitosamente');
+});
+
+// Validacion sub elemento de tarea
+
+// titulo 
+
+test('TC046 - crear una subelemento de tarea con titulo valido',async ({page, myWorkPage}) => {
+    Logger.initTest('crear un subelemento');
+    Logger.step('Creando subelemento')
+    await myWorkPage.goto('https://srfgsdrges-team.monday.com/my_work');
+    await page.waitForLoadState('networkidle');
+    await myWorkPage.createSubelement();
     Logger.termTest('tarea creada exitosamente');
 });
 
