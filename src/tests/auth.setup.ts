@@ -12,7 +12,8 @@ setup('authenticate', async ({ page }) => {
   const nextBtn = page.locator("[data-testid='button']");
   await nextBtn.click();
   const password = page.locator("#user_password").first();
-  await password.fill('ChocoMei7v7#');
+  const currentPassword = 'chocomei7v7';
+  await password.fill(currentPassword);
   await nextBtn.click();
   await page.waitForURL('https://srfgsdrges-team.monday.com/');
   await page.context().storageState({ path: authFile });
