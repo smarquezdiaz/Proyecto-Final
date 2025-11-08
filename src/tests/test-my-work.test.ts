@@ -148,12 +148,141 @@ test('TC046 - crear una subelemento de tarea con titulo valido',async ({page, my
     Logger.initTest('crear un subelemento');
     Logger.step('Creando subelemento')
     await myWorkPage.goto('https://srfgsdrges-team.monday.com/my_work');
-    await page.waitForLoadState('networkidle');
     await myWorkPage.createSubelement();
     Logger.termTest('tarea creada exitosamente');
 });
 
+test('TC047 - editar el titulo de un subelemento',async ({page, myWorkPage}) => {
+    Logger.initTest('crear un subelemento');
+    Logger.step('Creando subelemento')
+    await myWorkPage.goto('https://srfgsdrges-team.monday.com/my_work');
+    const title = 'soy un titulo xd';
+    await myWorkPage.createSubelement(title);
+    Logger.termTest('tarea creada exitosamente');
+});
 
+test('TC048 - crear un subelemento con titulo con 256 caracteres',async ({page, myWorkPage}) => {
+    Logger.initTest('crear un subelemento');
+    Logger.step('Creando subelemento')
+    await myWorkPage.goto('https://srfgsdrges-team.monday.com/my_work');
+    const title = 'a'.repeat(256);
+    await myWorkPage.createSubelement(title);
+    await expect(myWorkPage.warningMessageLongTitle).toBeVisible();
+    Logger.termTest('tarea creada exitosamente');
+});
+
+test('TC049 - crear un subelemento con titulo vacio',async ({page, myWorkPage}) => {
+    Logger.initTest('crear un subelemento');
+    Logger.step('Creando subelemento')
+    await myWorkPage.goto('https://srfgsdrges-team.monday.com/my_work');
+    const title = '';
+    await myWorkPage.createSubelement(title);
+    await expect(myWorkPage.warningMessageLongTitle).toBeVisible();
+    Logger.termTest('tarea creada exitosamente');
+});
+
+test('TC050 - crear un subelemento con titulo con espacios en blanco',async ({page, myWorkPage}) => {
+    Logger.initTest('crear un subelemento');
+    Logger.step('Creando subelemento')
+    await myWorkPage.goto('https://srfgsdrges-team.monday.com/my_work');
+    const title = '                   ';
+    await myWorkPage.createSubelement(title);
+    await expect(myWorkPage.warningMessageLongTitle).toBeVisible();
+    Logger.termTest('tarea creada exitosamente');
+});
+
+test('TC051 - crear un subelemento estado en curso' ,async ({page, myWorkPage}) => {
+    Logger.initTest('crear un subelemento');
+    Logger.step('Creando subelemento')
+    await myWorkPage.goto('https://srfgsdrges-team.monday.com/my_work');
+    const status = Status.InProgress;
+    await myWorkPage.createSubelement(undefined, status);
+    await expect(page.getByText(`${status}`)).toBeVisible();
+    // await myWorkPage.deleteSubelement();
+    Logger.termTest('tarea creada exitosamente');
+});
+
+test('TC052 - crear un subelemento estado detenido' ,async ({page, myWorkPage}) => {
+    Logger.initTest('crear un subelemento');
+    Logger.step('Creando subelemento')
+    await myWorkPage.goto('https://srfgsdrges-team.monday.com/my_work');
+    const status = Status.Stopped;
+    await myWorkPage.createSubelement(undefined, status);
+    await expect(page.getByText(`${status}`)).toBeVisible();
+    // await myWorkPage.deleteSubelement();
+    Logger.termTest('tarea creada exitosamente');
+});
+
+test('TC053 - crear un subelemento estado Listo' ,async ({page, myWorkPage}) => {
+    Logger.initTest('crear un subelemento');
+    Logger.step('Creando subelemento')
+    await myWorkPage.goto('https://srfgsdrges-team.monday.com/my_work');
+    const status = Status.Done;
+    await myWorkPage.createSubelement(undefined, status);
+    await expect(page.getByText(`${status}`)).toBeVisible();
+    // await myWorkPage.deleteSubelement();
+    Logger.termTest('tarea creada exitosamente');
+});
+
+test('TC054 - crear un subelemento con campo numeros exitoso' ,async ({page, myWorkPage}) => {
+    Logger.initTest('crear un subelemento');
+    Logger.step('Creando subelemento')
+    await myWorkPage.goto('https://srfgsdrges-team.monday.com/my_work');
+    const numerical = '0.1';
+    await myWorkPage.createSubelement(undefined, undefined, numerical);
+    await expect(page.getByText(`%${numerical}`)).toBeVisible();
+    Logger.termTest('tarea creada exitosamente');
+});
+
+test('TC055 - crear un subelemento con campo numeros con caracteres' ,async ({page, myWorkPage}) => {
+    Logger.initTest('crear un subelemento');
+    Logger.step('Creando subelemento')
+    await myWorkPage.goto('https://srfgsdrges-team.monday.com/my_work');
+    const numerical = 'e';
+    await myWorkPage.createSubelement(undefined, undefined, numerical);
+    // await expect(page.getByText(`%${numerical}`)).toBeVisible();
+    Logger.termTest('tarea creada exitosamente');
+});
+
+test('TC056 - crear un subelemento con campo numeros con caracteres especiales' ,async ({page, myWorkPage}) => {
+    Logger.initTest('crear un subelemento');
+    Logger.step('Creando subelemento')
+    await myWorkPage.goto('https://srfgsdrges-team.monday.com/my_work');
+    const numerical = '*';
+    await myWorkPage.createSubelement(undefined, undefined, numerical);
+    // await expect(page.getByText(`%${numerical}`)).toBeVisible();
+    Logger.termTest('tarea creada exitosamente');
+});
+
+test('TC057 - crear un subelemento con campo numeros con espacios en blanco' ,async ({page, myWorkPage}) => {
+    Logger.initTest('crear un subelemento');
+    Logger.step('Creando subelemento')
+    await myWorkPage.goto('https://srfgsdrges-team.monday.com/my_work');
+    const numerical = '     ';
+    await myWorkPage.createSubelement(undefined, undefined, numerical);
+    // await expect(page.getByText(`%${numerical}`)).toBeVisible();
+    Logger.termTest('tarea creada exitosamente');
+});
+
+test('TC058 - verificar que al elimina exitosamente' ,async ({page, myWorkPage}) => {
+    Logger.initTest('crear un subelemento');
+    Logger.step('Creando subelemento')
+    await myWorkPage.goto('https://srfgsdrges-team.monday.com/my_work');
+    await myWorkPage.createSubelement();
+    await myWorkPage.deleteSubelement();
+    await expect(myWorkPage.succeddedMessage).toBeVisible(); 
+    Logger.termTest('tarea creada exitosamente');
+});
+
+test.fail('TC059 - verificar que al eliminar un subelemento cambia el total' ,async ({page, myWorkPage}) => {
+    Logger.initTest('crear un subelemento');
+    Logger.step('Creando subelemento')
+    await myWorkPage.goto('https://srfgsdrges-team.monday.com/my_work');
+    await myWorkPage.createSubelement();
+    await myWorkPage.deleteSubelement();
+    await expect(myWorkPage.counter).toHaveCount(0); 
+    Logger.termTest('tarea creada exitosamente');
+});
 
 
 

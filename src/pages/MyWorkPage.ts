@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Locator, Page } from "@playwright/test";
 import { BasePage } from "./BasePage";
 import { expect } from '@playwright/test';
 
@@ -9,11 +9,23 @@ export class MyWorkPage extends BasePage {
     dateField: any;
     dateDialog: any;
     statusField: any;
-    // taskOptionBtn: any;
+    taskOptionBtn: any;
     addSubelementBtn: any;
     taskContainer: any;
     listSubelements: any;
     lastSubelement: any;
+    titleFieldSubelement: any;
+    titleInputSubelement: Locator;
+    warningMessageLongTitle: any;
+    counter: any;
+    emptyTitleMessage: Locator;
+    statusFieldSubelement: Locator;
+    editSubelementOptions: Locator;
+    deleteBtn: Locator;
+    succeddedMessage: Locator;
+    statusContainer: Locator;
+    numericalContainer: Locator;
+    numericalInput: Locator;
     constructor(page: Page) {
         super(page);
         this.addElementBtn = page.getByRole('button', {name: 'Elemento nuevo'});
@@ -22,11 +34,23 @@ export class MyWorkPage extends BasePage {
         this.dateField = page.locator('.cell-component').nth(3);
         this.dateDialog = page.getByTestId('dialog');
         this.statusField = page.locator('.pulse-card-cell-wrapper-component:has-text("No iniciado")');
-        // this.taskOptionBtn = page.locator(('button[aria-label="Más opciones para Agregar tarea xd"]'));
+        this.taskOptionBtn = page.locator(('button[aria-label="Más opciones para Agregar tarea xd"]'));
         this.addSubelementBtn = page.getByTestId('menu-item_7');
         this.taskContainer = page.locator('.nameCellContentContainer--A5D3x').filter({ hasText: 'Agregar tarea xd' });
         this.listSubelements = this.taskContainer.getByTestId('clickable');
         this.lastSubelement = page.locator('.pulse-item').last();
+        this.titleFieldSubelement = page.locator('.ds-editable-component.pulse-attribute-value-text > .ds-text-component');
+        this.titleInputSubelement = page.locator('input[value="Subelemento"]');
+        this.warningMessageLongTitle = page.getByText('El título del elemento es muy extenso (máximo 255 caracteres)');
+        this.counter = this.taskContainer.locator('.monday-subitems-counter-component__subitems-count');
+        this.emptyTitleMessage = page.getByText('El nombre no puede estar vacío');
+        this.statusFieldSubelement = page.locator('.cell-wrapper can-edit');
+        this.editSubelementOptions = page.locator("button[aria-label='Editar celda']");
+        this.deleteBtn = page.getByTestId('menu-item_1');
+        this.succeddedMessage = page.getByText('Eliminamos 1 elemento correctamente');
+        this.statusContainer = page.locator('.cell-wrapper.can-edit:has(.col-identifier-status)');
+        this.numericalContainer = page.locator('.cell-wrapper.can-edit:has(.col-identifier-numeric_mkwsj9fj)');
+        this.numericalInput = page.locator('input[inputmode="decimal"]');
     }
 
     async goto(url: string): Promise<void> {
@@ -59,15 +83,42 @@ export class MyWorkPage extends BasePage {
         }
     }
 
-    async createSubelement(title?: string) {
-        await this.isVisible(this.page.locator(('button[aria-label="Más opciones para Agregar tarea xd"]')));
-        const taskOptionBtn = this.page.locator(('button[aria-label="Más opciones para Agregar tarea xd"]'));
-        this.click(taskOptionBtn);
-        await this.page.getByTestId('menu-item_7').click();
+    async createSubelement(title?: string, status?: string, numerical?: any) {
+        this.isVisible(this.taskOptionBtn);
+        // this.click(this.taskOptionBtn);
+        this.taskOptionBtn.click({force: true});
+        this.isVisible(this.addElementBtn);
+        // this.click(this.addSubelementBtn);
+        this.addSubelementBtn.click({force: true});
+        this.isVisible(this.counter);
         this.isVisible(this.listSubelements);
         this.click(this.listSubelements);
         this.isVisible(this.lastSubelement);
-        this.lastSubelement.click({force: true});
+        // this.lastSubelement.click({force: true});
         await this.lastSubelement.click();
+        if(title) {
+            // editar titulo 
+            this.click(this.titleFieldSubelement);
+            this.click(this.titleInputSubelement);
+            this.fill(this.titleInputSubelement, title);
+            await this.titleInputSubelement.press('Enter');
+        }
+        if(status) {
+            this.click(this.statusContainer);
+            const statusInput = this.page.locator(`.ds-text-component:has-text("${status}")`);
+            this.click(statusInput);
+        }
+        if(numerical) {
+            this.click(this.numericalContainer);
+            this.click(this.numericalInput);
+            this.numericalInput.fill(numerical);
+            this.numericalInput.press('Enter');
+        }
+
+    }
+
+    async deleteSubelement() {
+        this.click(this.editSubelementOptions);
+        this.click(this.deleteBtn);
     }
 }

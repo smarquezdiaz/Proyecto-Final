@@ -2,3 +2,4 @@ node_modules
 playwright/.auth
 test-results   
 reports 
+.DS_Store
