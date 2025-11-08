@@ -3,21 +3,21 @@ import { BasePage } from "./BasePage";
 import { expect } from '@playwright/test';
 
 export class MyWorkPage extends BasePage {
-    addElementBtn: any;
-    titleField: any;
-    createBtn: any;
-    dateField: any;
-    dateDialog: any;
-    statusField: any;
-    taskOptionBtn: any;
-    addSubelementBtn: any;
-    taskContainer: any;
-    listSubelements: any;
-    lastSubelement: any;
-    titleFieldSubelement: any;
+    addElementBtn: Locator;
+    titleField: Locator;
+    createBtn: Locator;
+    dateField: Locator;
+    dateDialog: Locator;
+    statusField: Locator;
+    taskOptionBtn: Locator;
+    addSubelementBtn: Locator;
+    taskContainer: Locator;
+    listSubelements: Locator;
+    lastSubelement: Locator;
+    titleFieldSubelement: Locator;
     titleInputSubelement: Locator;
-    warningMessageLongTitle: any;
-    counter: any;
+    warningMessageLongTitle: Locator;
+    counter: Locator;
     emptyTitleMessage: Locator;
     statusFieldSubelement: Locator;
     editSubelementOptions: Locator;
@@ -85,19 +85,15 @@ export class MyWorkPage extends BasePage {
 
     async createSubelement(title?: string, status?: string, numerical?: any) {
         this.isVisible(this.taskOptionBtn);
-        // this.click(this.taskOptionBtn);
-        this.taskOptionBtn.click({force: true});
+        await this.taskOptionBtn.click({force: true});
         this.isVisible(this.addElementBtn);
-        // this.click(this.addSubelementBtn);
-        this.addSubelementBtn.click({force: true});
+        await this.addSubelementBtn.click({force: true});
         this.isVisible(this.counter);
         this.isVisible(this.listSubelements);
         this.click(this.listSubelements);
         this.isVisible(this.lastSubelement);
-        // this.lastSubelement.click({force: true});
         await this.lastSubelement.click();
         if(title) {
-            // editar titulo 
             this.click(this.titleFieldSubelement);
             this.click(this.titleInputSubelement);
             this.fill(this.titleInputSubelement, title);
@@ -111,8 +107,8 @@ export class MyWorkPage extends BasePage {
         if(numerical) {
             this.click(this.numericalContainer);
             this.click(this.numericalInput);
-            this.numericalInput.fill(numerical);
-            this.numericalInput.press('Enter');
+            await this.numericalInput.fill(numerical);
+            await this.numericalInput.press('Enter');
         }
 
     }
