@@ -1,10 +1,13 @@
 import { Page, Locator } from '@playwright/test';
+import { AssertionHelper } from '../helper/AssertionHelper'
 
 export class BasePage {
-  readonly page: Page; 
+  readonly page: Page;
+  readonly assertions: AssertionHelper; 
 
   constructor(page: Page) {
     this.page = page;
+    this.assertions = new AssertionHelper(page);
   }
 
   async goto(url: string): Promise<void> {
@@ -21,5 +24,25 @@ export class BasePage {
 
   async isVisible(locator: Locator): Promise<boolean> {
     return await locator.isVisible();
+  }
+
+  getByText(text: string | RegExp): Locator {
+    return this.page.getByText(text);
+  }
+
+  getByRole(role: 'button' | 'heading' | 'dialog' | 'menuitem', options?: { name?: string | RegExp; level?: number }): Locator {
+    return this.page.getByRole(role, options);
+  }
+
+  getByTestId(testId: string): Locator {
+    return this.page.getByTestId(testId);
+  }
+
+  getByLabel(text: string | RegExp): Locator {
+    return this.page.getByLabel(text);
+  }
+
+  locator(selector: string): Locator {
+    return this.page.locator(selector);
   }
 }

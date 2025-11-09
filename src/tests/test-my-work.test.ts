@@ -2,7 +2,7 @@ import { Status } from '../enums/statusEnum';
 import { test } from '../fixtures/fixtures'
 import { Logger } from '../helper/logger/Logger';
 import { expect } from '@playwright/test';
-import { getTestData, generateString } from '../utils/utils';
+import { getTestData } from '../utils/utils';
 
 const testData = getTestData();
 const myWorkData = testData.myWork;
@@ -16,10 +16,12 @@ const myWorkData = testData.myWork;
  * TC001 Verificar que permita crear una tarea
  * Verificar que al hacer clic en "Elemento nuevo" se visualice la nueva tarea creada con valores por defecto
  */
-test('TC001 - Verificar que permita crear una tarea', async ({page, myWorkPage}) => {
+test('TC001 - Verificar que permita crear una tarea', async ({myWorkPage}) => {
     Logger.initTest('TC001 - Verificar que permita crear una tarea');
     Logger.step('Creando tarea con valores por defecto');
     await myWorkPage.createElement();
+    await myWorkPage.assertions.expectToBeVisible(myWorkData.tasks.title.default);
+    await myWorkPage.deleteElement(myWorkData.tasks.title.default);
     Logger.termTest('TC001 - Tarea creada exitosamente');
 });
 
@@ -30,10 +32,13 @@ test.describe('Suite: Validación del campo "Título" en Tareas', () => {
      * TC002 Verificar que permita crear una tarea con un título válido
      * Verificar que permita crear una tarea cuando el título es válido (no vacío, menor a 255 caracteres)
      */
-    test('TC002 - Verificar que permita crear una tarea con un título válido', async ({page, myWorkPage}) => {
+    test('TC002 - Verificar que permita crear una tarea con un título válido', 
+        {tag: ["@smoke", "@positive", "@regression"],}, async ({page, myWorkPage}) => {
         Logger.initTest('TC002 - Verificar que permita crear una tarea con un título válido');
         Logger.step('Creando tarea con título válido');
         await myWorkPage.createElement(myWorkData.tasks.title.valid);
+        await myWorkPage.assertions.expectToBeVisible(myWorkData.tasks.title.valid);
+        await myWorkPage.deleteElement(myWorkData.tasks.title.valid);
         Logger.termTest('TC002 - Tarea con título válido creada exitosamente');
     });
 
@@ -41,10 +46,13 @@ test.describe('Suite: Validación del campo "Título" en Tareas', () => {
      * TC003 Verificar que no permita crear una tarea con título de más de 255 caracteres
      * Verificar que se muestre un mensaje de error cuando se ingrese un título de más de 255 caracteres al crear una nueva tarea
      */
-    test('TC003 - Verificar que no permita crear una tarea con título de más de 255 caracteres', async ({page, myWorkPage}) => {
+    test('TC003 - Verificar que no permita crear una tarea con título de más de 255 caracteres', 
+        {tag: ["@smoke", "@negative", "@regression"],}, async ({myWorkPage}) => {
         Logger.initTest('TC003 - Verificar que no permita crear una tarea con título de más de 255 caracteres');
         Logger.step('Intentando crear tarea con título de 256 caracteres');
         await myWorkPage.createElement(myWorkData.tasks.title.invalidLong);
+        await myWorkPage.assertions.expectToBeVisible(myWorkPage.warningMessageLongTitle);
+        await myWorkPage.deleteElement(myWorkData.tasks.title.default);
         Logger.termTest('TC003 - Validación de título largo completada');
     });
 
