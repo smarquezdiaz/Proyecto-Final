@@ -9,6 +9,7 @@ const config: PlaywrightTestConfig = {
   testDir: './src/tests',
   timeout: 30000,
   retries: 1,
+  reporter: [["line"], ["allure-playwright"]],
   use: {
     headless: false,
     screenshot: 'only-on-failure',

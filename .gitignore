@@ -3,3 +3,4 @@ playwright/.auth
 test-results   
 reports 
 .DS_Store
+allure-results

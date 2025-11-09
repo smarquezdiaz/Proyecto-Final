@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import type { TransformableInfo } from 'logform';
+import { allure } from 'allure-playwright';
 import { SetupConstants } from './SetupConstants';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -46,39 +47,57 @@ export class Logger {
 
   static debug(message: string): void {
     this.logger.debug(message);
+    allure.step(`[DEBUG] ${message}`, async () => {});
   }
 
   static info(message: string): void {
     this.logger.info(message);
+    allure.step(`[INFO] ${message}`, async () => {});
   }
 
   static warn(message: string): void {
     this.logger.warn(message);
+    allure.step(`[WARN] ${message}`, async () => {});
   }
 
   static error(message: string): void {
     this.logger.error(message);
+    allure.step(`[ERROR] ${message}`, async () => {});
+  }
+
+  static success(message: string): void {
+    this.logger.info(`[SUCCESS] ${message}`);
+    allure.step(`[SUCCESS] ${message}`, async () => {});
   }
 
   static step(message: string): void {
     this.logger.info(`[PASO] ${message}`);
+    allure.step(`[PASO] ${message}`, async () => {});
   }
 
   static initTestSuite(name: string): void {
-    this.logger.info(`=== Empezando Test Suite: ${name} ===`);
+    const message = `=== Empezando Test Suite: ${name} ===`;
+    this.logger.info(message);
+    allure.step(message, async () => {});
   }
 
   static termTestSuite(name: string): void {
-    this.logger.info(`=== Finalizando Test Suite: ${name} ===`);
+    const message = `=== Finalizando Test Suite: ${name} ===`;
+    this.logger.info(message);
     this.logger.info(SetupConstants.LOGGER_LINE_SEPARATOR);
+    allure.step(message, async () => {});
   }
 
   static initTest(name: string): void {
-    this.logger.info(`-- Iniciando Test: ${name}`);
+    const message = `-- Iniciando Test: ${name}`;
+    this.logger.info(message);
+    allure.step(message, async () => {});
   }
 
   static termTest(name: string): void {
-    this.logger.info(`-- Test Terminado: ${name}`);
+    const message = `-- Test Terminado: ${name}`;
+    this.logger.info(message);
     this.logger.info(SetupConstants.LOGGER_LINE_SEPARATOR);
+    allure.step(message, async () => {});
   }
 }

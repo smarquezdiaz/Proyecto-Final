@@ -1,5 +1,6 @@
 import { Locator, Page } from "@playwright/test";
 import { BasePage } from "./BasePage";
+import { Config } from '../utils/config';
 
 export class MyWorkPage extends BasePage {
     addElementBtn: Locator;
@@ -56,7 +57,7 @@ export class MyWorkPage extends BasePage {
     }
 
     async createElement(title?: string, date?: string, status?: string) {
-        await this.goto('https://srfgsdrges-team.monday.com/my_work');
+        await this.goto(Config.WORK_URL);
         await this.isVisible(this.tableContainer);
         await this.click(this.addElementBtn);
         if (title) {
@@ -82,6 +83,7 @@ export class MyWorkPage extends BasePage {
     }
 
     async createSubelement(title?: string, status?: string, numerical?: any) {
+        await this.goto(Config.WORK_URL);
         await this.isVisible(this.taskOptionBtn);
         await this.taskOptionBtn.click({force: true});
         await this.isVisible(this.addSubelementBtn);

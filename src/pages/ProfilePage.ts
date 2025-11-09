@@ -18,40 +18,36 @@ export class ProfilePage extends BasePage {
 
     constructor(page: Page) {
         super(page);
-        this.menu = page.getByTestId('topbar-avatar-menu');
-        this.profileMenu = page.locator('text="Mi perfil"');
-        this.passwordMenu = page.getByTestId('menu-item_4');
-        this.currentPasswordField = page.getByTestId('text-field_current-password');
-        this.newPasswordField = page.getByTestId('text-field_new-password');
-        this.confirmPasswordField = page.getByTestId('text-field_password-confirmation');
-        this.submitBtn =  page.locator('button:has-text("Guardar")');
-        this.succeededMessage = page.locator('text="Password successfully changed"');
-        this.errorMessage = page.locator('text="Unknown error in the server"');
-        this.passwordErrorMessage = page.locator('text="The password has to contain at least 8 characters"');
-        this.passwordRepeatedErrorMessage = page.locator('text="The password cannot have only one letter"');
-        this.passwordMissmatchErrorMessage = page.locator('text="La confirmación de contraseña no coincide con la contraseña nueva"');
-    }
-
-    async goto(url: string): Promise<void> {
-        await super.goto(url);
+        this.menu = this.getByTestId('topbar-avatar-menu');
+        this.profileMenu = this.locator('text="Mi perfil"');
+        this.passwordMenu = this.getByTestId('menu-item_4');
+        this.currentPasswordField = this.getByTestId('text-field_current-password');
+        this.newPasswordField = this.getByTestId('text-field_new-password');
+        this.confirmPasswordField = this.getByTestId('text-field_password-confirmation');
+        this.submitBtn = this.locator('button:has-text("Guardar")');
+        this.succeededMessage = this.locator('text="Password successfully changed"');
+        this.errorMessage = this.locator('text="Unknown error in the server"');
+        this.passwordErrorMessage = this.locator('text="The password has to contain at least 8 characters"');
+        this.passwordRepeatedErrorMessage = this.locator('text="The password cannot have only one letter"');
+        this.passwordMissmatchErrorMessage = this.locator('text="La confirmación de contraseña no coincide con la contraseña nueva"');
     }
 
     async updateField(campo: string, valor: string) {
         await this.click(this.menu);
         await this.click(this.profileMenu);
-        const textLocator = this.page.locator(`text="${campo}"`);
+        const textLocator = this.locator(`text="${campo}"`);
         const phoneContainer = textLocator.locator('..').locator('..');
         await phoneContainer.getByTestId('editable-text').click();
         const actualInput = phoneContainer.locator('input'); 
         await actualInput.fill(`${valor}`);
         await actualInput.press('Enter');
-        await this.isVisible(this.page.getByText(`${valor}`));
+        await this.isVisible(this.getByText(`${valor}`));
     }
 
     async updateDateField(campo: string, valor: string) {
         await this.click(this.menu);
         await this.click(this.profileMenu);
-        const textLocator = this.page.locator(`text="${campo}"`);
+        const textLocator = this.locator(`text="${campo}"`);
         const fieldContainer = textLocator.locator('..').locator('..');
         await fieldContainer.getByTestId('clickable').click();
         const actualInput = fieldContainer.locator('input, [role="textbox"]').first();
@@ -85,6 +81,6 @@ export class ProfilePage extends BasePage {
     }
 
     async assertInvalidDateMessage(campo: string) {
-        await expect(this.page.getByText(`Agregar un ${campo.toLowerCase()}`)).toBeVisible();
+        await expect(this.getByText(`Agregar un ${campo.toLowerCase()}`)).toBeVisible();
     }
 }
