@@ -10,6 +10,7 @@ const config: PlaywrightTestConfig = {
   timeout: 30000,
   retries: 1,
   reporter: [["line"], ["allure-playwright"]],
+  workers: 1,
   use: {
     headless: false,
     screenshot: 'only-on-failure',

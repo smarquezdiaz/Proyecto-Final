@@ -27,6 +27,9 @@ export class MyWorkPage extends BasePage {
     numericalContainer: Locator;
     numericalInput: Locator;
     tableContainer: Locator;
+    dateInput: Locator;
+    errorTitleMessage: Locator;
+    subelementsContainer: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -34,12 +37,13 @@ export class MyWorkPage extends BasePage {
         this.addElementBtn = this.getByRole('button', {name: 'Elemento nuevo'});
         this.titleField = this.locator('input[value="Agregar Tarea"]');
         this.createBtn = this.getByRole('button', {name: 'Crear Tarea'});
-        this.dateField = this.locator('.cell-component').nth(3);
+        this.dateField = this.locator('[data-column-id="date"]').locator('.cell-wrapper.can-edit');
+        this.dateInput = this.locator("input[aria-label='Date']");
         this.dateDialog = this.getByTestId('dialog');
         this.statusField = this.locator('.pulse-card-cell-wrapper-component:has-text("No iniciado")');
-        this.taskOptionBtn = this.locator('button[aria-label="Más opciones para Agregar tarea xd"]');
-        this.addSubelementBtn = this.getByTestId('menu-item_7');
-        this.taskContainer = this.locator('.nameCellContentContainer--A5D3x').filter({ hasText: 'Agregar tarea xd' });
+        this.taskOptionBtn = this.locator('button[aria-label="Más opciones para Tarea con subelementos"]');
+        this.addSubelementBtn = this.getByRole('menuitem', { name: 'Agregar subelemento' });
+        this.taskContainer = this.locator('.nameCellContentContainer--A5D3x').filter({ hasText: 'Tarea con subelementos' });
         this.listSubelements = this.taskContainer.getByTestId('clickable');
         this.lastSubelement = this.locator('.pulse-item').last();
         this.titleFieldSubelement = this.locator('.ds-editable-component.pulse-attribute-value-text > .ds-text-component');
@@ -54,6 +58,8 @@ export class MyWorkPage extends BasePage {
         this.statusContainer = this.locator('.cell-wrapper.can-edit:has(.col-identifier-status)');
         this.numericalContainer = this.locator('.cell-wrapper.can-edit:has(.col-identifier-numeric_mkwsj9fj)');
         this.numericalInput = this.locator('input[inputmode="decimal"]');
+        this.errorTitleMessage = this.getByText('No pudimos agregar el elemento, el texto no puede incluir el signo “<”');
+        this.subelementsContainer = this.getByText('Subelementos de Tarea con subelementos');
     }
 
     async createElement(title?: string, date?: string, status?: string) {
@@ -66,10 +72,8 @@ export class MyWorkPage extends BasePage {
         if (date) {
             await this.click(this.dateField);
             await this.isVisible(this.dateDialog);
-            const dateFormmated = new Date(date);
-            const day = dateFormmated.getDate();
-            const dayBtn = this.page.locator('button', {has: this.page.locator(`text=${day}`)});
-            await this.click(dayBtn);
+            await this.dateInput.fill(`${date}`);
+            await this.dateInput.press('Enter');
         }
         if (status) {
             await this.click(this.statusField);
@@ -77,21 +81,22 @@ export class MyWorkPage extends BasePage {
             await this.click(statusOptionLocator);
         }
         await this.click(this.createBtn);
-        if (title) {
+        if (title && title != " ") {
             await this.isVisible(this.getByText(title));
         }
     }
 
     async createSubelement(title?: string, status?: string, numerical?: any) {
         await this.goto(Config.WORK_URL);
-        await this.isVisible(this.taskOptionBtn);
-        await this.taskOptionBtn.click({force: true});
+        await this.taskOptionBtn.waitFor({ state: 'visible', timeout: 10000 });
+        await this.taskOptionBtn.click();
         await this.isVisible(this.addSubelementBtn);
-        await this.addSubelementBtn.click({force: true});
+        await this.addSubelementBtn.click();
         await this.isVisible(this.counter);
         await this.isVisible(this.listSubelements);
         await this.click(this.listSubelements);
         await this.isVisible(this.lastSubelement);
+        await this.isVisible(this.subelementsContainer);
         await this.lastSubelement.click();
         if(title) {
             await this.click(this.titleFieldSubelement);
