@@ -67,8 +67,7 @@ export class MyWorkPage extends BasePage {
             await this.click(this.dateField);
             await this.isVisible(this.dateDialog);
             const dateFormmated = new Date(date);
-            const day = dateFormmated.getDay();
-            console.log(`dia a seleccionar ${day}`);
+            const day = dateFormmated.getDate();
             const dayBtn = await this.page.locator('button', {has: this.page.locator(`text=${day}`)});
             await this.click(dayBtn);
         }

@@ -61,15 +61,15 @@ export class Logger {
   }
 
   static step(message: string): void {
-    this.logger.info(`[STEP] ${message}`);
+    this.logger.info(`[PASO] ${message}`);
   }
 
   static initTestSuite(name: string): void {
-    this.logger.info(`=== Starting Test Suite: ${name} ===`);
+    this.logger.info(`=== Empezando Test Suite: ${name} ===`);
   }
 
   static termTestSuite(name: string): void {
-    this.logger.info(`=== Completed Test Suite: ${name} ===`);
+    this.logger.info(`=== Finalizando Test Suite: ${name} ===`);
     this.logger.info(SetupConstants.LOGGER_LINE_SEPARATOR);
   }
 

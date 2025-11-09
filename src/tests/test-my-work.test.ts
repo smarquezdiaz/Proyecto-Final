@@ -2,6 +2,10 @@ import { Status } from '../enums/statusEnum';
 import { test } from '../fixtures/fixtures'
 import { Logger } from '../helper/logger/Logger';
 import { expect } from '@playwright/test';
+import { getTestData, generateString } from '../utils/utils';
+
+const testData = getTestData();
+const myWorkData = testData.myWork;
 
 /**
  * Módulo: Mi Trabajo
@@ -29,7 +33,7 @@ test.describe('Suite: Validación del campo "Título" en Tareas', () => {
     test('TC002 - Verificar que permita crear una tarea con un título válido', async ({page, myWorkPage}) => {
         Logger.initTest('TC002 - Verificar que permita crear una tarea con un título válido');
         Logger.step('Creando tarea con título válido');
-        await myWorkPage.createElement('Título válido de tarea');
+        await myWorkPage.createElement(myWorkData.tasks.title.valid);
         Logger.termTest('TC002 - Tarea con título válido creada exitosamente');
     });
 
@@ -40,7 +44,7 @@ test.describe('Suite: Validación del campo "Título" en Tareas', () => {
     test('TC003 - Verificar que no permita crear una tarea con título de más de 255 caracteres', async ({page, myWorkPage}) => {
         Logger.initTest('TC003 - Verificar que no permita crear una tarea con título de más de 255 caracteres');
         Logger.step('Intentando crear tarea con título de 256 caracteres');
-        await myWorkPage.createElement('a'.repeat(256));
+        await myWorkPage.createElement(myWorkData.tasks.title.invalidLong);
         Logger.termTest('TC003 - Validación de título largo completada');
     });
 
@@ -51,7 +55,7 @@ test.describe('Suite: Validación del campo "Título" en Tareas', () => {
     test('TC004 - Verificar que no permita crear una tarea con título vacío', async ({page, myWorkPage}) => {
         Logger.initTest('TC004 - Verificar que no permita crear una tarea con título vacío');
         Logger.step('Intentando crear tarea con título vacío');
-        await myWorkPage.createElement('');
+        await myWorkPage.createElement(myWorkData.tasks.title.invalid);
         Logger.termTest('TC004 - Validación de título vacío completada');
     });
 
@@ -62,7 +66,7 @@ test.describe('Suite: Validación del campo "Título" en Tareas', () => {
     test('TC005 - Verificar que permita crear una tarea con título de 255 caracteres', async ({page, myWorkPage}) => {
         Logger.initTest('TC005 - Verificar que permita crear una tarea con título de 255 caracteres');
         Logger.step('Creando tarea con título de 255 caracteres');
-        await myWorkPage.createElement('a'.repeat(255));
+        await myWorkPage.createElement(myWorkData.tasks.title.validMax);
         Logger.termTest('TC005 - Tarea con título de 255 caracteres creada exitosamente');
     });
 
@@ -73,7 +77,7 @@ test.describe('Suite: Validación del campo "Título" en Tareas', () => {
     test('TC006 - Verificar que permita crear una tarea con título de 1 carácter', async ({page, myWorkPage}) => {
         Logger.initTest('TC006 - Verificar que permita crear una tarea con título de 1 carácter');
         Logger.step('Creando tarea con título de 1 carácter');
-        await myWorkPage.createElement('a');
+        await myWorkPage.createElement(myWorkData.tasks.title.validShort);
         Logger.termTest('TC006 - Tarea con título de 1 carácter creada exitosamente');
     });
 
@@ -90,7 +94,7 @@ test.describe('Suite: Validación del campo "Fecha de Vencimiento" en Tareas', (
     test('TC007 - Verificar que no permita crear una tarea con fecha en el pasado', async ({page, myWorkPage}) => {
         Logger.initTest('TC007 - Verificar que no permita crear una tarea con fecha en el pasado');
         Logger.step('Creando tarea con fecha en el pasado');
-        await myWorkPage.createElement('Tarea con fecha pasada', '2025-10-04');
+        await myWorkPage.createElement('Tarea con fecha pasada', myWorkData.tasks.date.past);
         Logger.termTest('TC007 - Tarea con fecha pasada creada exitosamente');
     });
 
@@ -161,8 +165,7 @@ test.describe('Suite: Validación de Subelementos - Campo "Título"', () => {
         Logger.step('Navegando a Mi Trabajo');
         await myWorkPage.goto('https://srfgsdrges-team.monday.com/my_work');
         Logger.step('Creando subelemento y editando título');
-        const title = 'Título editado del subelemento';
-        await myWorkPage.createSubelement(title);
+        await myWorkPage.createSubelement(myWorkData.subelements.title.valid);
         Logger.termTest('TC012 - Título de subelemento editado exitosamente');
     });
 
@@ -175,8 +178,7 @@ test.describe('Suite: Validación de Subelementos - Campo "Título"', () => {
         Logger.step('Navegando a Mi Trabajo');
         await myWorkPage.goto('https://srfgsdrges-team.monday.com/my_work');
         Logger.step('Intentando crear subelemento con título de 256 caracteres');
-        const title = 'a'.repeat(256);
-        await myWorkPage.createSubelement(title);
+        await myWorkPage.createSubelement(myWorkData.subelements.title.invalidLong);
         await expect(myWorkPage.warningMessageLongTitle).toBeVisible();
         Logger.termTest('TC013 - Validación de título largo completada');
     });
@@ -190,8 +192,7 @@ test.describe('Suite: Validación de Subelementos - Campo "Título"', () => {
         Logger.step('Navegando a Mi Trabajo');
         await myWorkPage.goto('https://srfgsdrges-team.monday.com/my_work');
         Logger.step('Intentando crear subelemento con título vacío');
-        const title = '';
-        await myWorkPage.createSubelement(title);
+        await myWorkPage.createSubelement(myWorkData.subelements.title.invalid);
         await expect(myWorkPage.emptyTitleMessage).toBeVisible();
         Logger.termTest('TC014 - Validación de título vacío completada');
     });
@@ -205,8 +206,7 @@ test.describe('Suite: Validación de Subelementos - Campo "Título"', () => {
         Logger.step('Navegando a Mi Trabajo');
         await myWorkPage.goto('https://srfgsdrges-team.monday.com/my_work');
         Logger.step('Intentando crear subelemento con espacios en blanco');
-        const title = '                   ';
-        await myWorkPage.createSubelement(title);
+        await myWorkPage.createSubelement(myWorkData.subelements.title.invalidSpaces);
         await expect(myWorkPage.emptyTitleMessage).toBeVisible();
         Logger.termTest('TC015 - Validación de espacios en blanco completada');
     });
@@ -277,9 +277,8 @@ test.describe('Suite: Validación de Subelementos - Campo "Numérico"', () => {
         Logger.step('Navegando a Mi Trabajo');
         await myWorkPage.goto('https://srfgsdrges-team.monday.com/my_work');
         Logger.step('Creando subelemento con valor numérico válido');
-        const numerical = '0.1';
-        await myWorkPage.createSubelement(undefined, undefined, numerical);
-        await expect(page.getByText(`%${numerical}`)).toBeVisible();
+        await myWorkPage.createSubelement(undefined, undefined, myWorkData.subelements.numerical.valid);
+        await expect(page.getByText(`%${myWorkData.subelements.numerical.valid}`)).toBeVisible();
         Logger.termTest('TC019 - Valor numérico ingresado exitosamente');
     });
 
@@ -292,8 +291,7 @@ test.describe('Suite: Validación de Subelementos - Campo "Numérico"', () => {
         Logger.step('Navegando a Mi Trabajo');
         await myWorkPage.goto('https://srfgsdrges-team.monday.com/my_work');
         Logger.step('Intentando ingresar caracteres alfabéticos');
-        const numerical = 'e';
-        await myWorkPage.createSubelement(undefined, undefined, numerical);
+        await myWorkPage.createSubelement(undefined, undefined, myWorkData.subelements.numerical.invalidLetters);
         Logger.termTest('TC020 - Validación de caracteres alfabéticos completada');
     });
 
@@ -306,8 +304,7 @@ test.describe('Suite: Validación de Subelementos - Campo "Numérico"', () => {
         Logger.step('Navegando a Mi Trabajo');
         await myWorkPage.goto('https://srfgsdrges-team.monday.com/my_work');
         Logger.step('Intentando ingresar caracteres especiales');
-        const numerical = '*';
-        await myWorkPage.createSubelement(undefined, undefined, numerical);
+        await myWorkPage.createSubelement(undefined, undefined, myWorkData.subelements.numerical.invalidSpecialChar);
         Logger.termTest('TC021 - Validación de caracteres especiales completada');
     });
 
@@ -320,8 +317,7 @@ test.describe('Suite: Validación de Subelementos - Campo "Numérico"', () => {
         Logger.step('Navegando a Mi Trabajo');
         await myWorkPage.goto('https://srfgsdrges-team.monday.com/my_work');
         Logger.step('Intentando ingresar espacios en blanco');
-        const numerical = '     ';
-        await myWorkPage.createSubelement(undefined, undefined, numerical);
+        await myWorkPage.createSubelement(undefined, undefined, myWorkData.subelements.numerical.invalidSpaces);
         Logger.termTest('TC022 - Validación de espacios en blanco completada');
     });
 

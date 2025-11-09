@@ -1,0 +1,68 @@
+{
+  "myWork": {
+    "tasks": {
+      "title": {
+        "valid": "Título válido de tarea",
+        "validShort": "a",
+        "validMax": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "invalid": "",
+        "invalidLong": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "date": {
+        "past": "2025-10-04",
+        "future": "2026-12-31",
+        "today": "2025-11-08"
+      },
+      "status": {
+        "inProgress": "En Curso",
+        "done": "Listo",
+        "stopped": "Detenido",
+        "notStarted": "No iniciado"
+      }
+    },
+    "subelements": {
+      "title": {
+        "valid": "Título editado del subelemento",
+        "validMax": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "invalid": "",
+        "invalidLong": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "invalidSpaces": "                   "
+      },
+      "numerical": {
+        "valid": "0.1",
+        "invalidLetters": "e",
+        "invalidSpecialChar": "*",
+        "invalidSpaces": "     "
+      }
+    }
+  },
+  "profile": {
+    "phone": {
+      "valid": "77968051",
+      "invalid": "",
+      "invalidNegative": "-77968051",
+      "invalidLetter": "a",
+      "invalidSpecialChar": "%",
+      "invalidLong": "777777777777777777777777777777777777777777777777"
+    },
+    "location": {
+      "valid": "Ladislao Cabrera",
+      "invalid": "",
+      "invalidSpaces": "       "
+    },
+    "dates": {
+      "validBirthday": "27042001",
+      "invalidFuture": "23112025",
+      "invalidYear": "231112345",
+      "invalidMonth": "01152025",
+      "invalidDay": "32112025"
+    },
+    "password": {
+      "current": "chocomei7v7",
+      "validNew": "contrasena123",
+      "invalidShort": "123",
+      "invalidRepeated": "aaaaaaaa",
+      "invalidSpaces": "        A"
+    }
+  }
+}
