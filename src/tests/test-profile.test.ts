@@ -3,450 +3,454 @@ import { test } from '../fixtures/fixtures'
 import { Logger } from '../helper/logger/Logger';
 import randomstring from 'randomstring';
 import { dateFormatted } from "../utils/utils"
+import { getTestData } from '../utils/utils';
+
+const testData = getTestData();
+const myProfileData = testData.profile;
 
 /**
- * TC001 Agregar un numero de telefono valido.
+ * Módulo: Mi Perfil
+ * Suite de pruebas para validar la funcionalidad de gestión de los datos y configuraciones del perfil
  */
 
-test('TC001 - agregar un numero de telefono valido', async ({page, profilePage}) => {
-    Logger.initTest('agregar un numero de telefono valido');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando campo telefono')
-    await profilePage.updateField('Teléfono', '77968051');
-    Logger.termTest('test terminado exitosamente');
+test.describe('Suite: Validación del campo "Teléfono"', () => {
+    Logger.initTestSuite('Iniciando Suite: Validación del campo "Teléfono"');
+
+    /**
+     * TC025 Verificar que permita agregar un número de teléfono válido
+     * Verificar que se pueda agregar un número de teléfono válido (números enteros) en el perfil del usuario
+     */
+    test('TC025 - Verificar que permita agregar un número de teléfono válido', 
+        {tag: ["@smoke", "@positive", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC025 - Verificar que permita agregar un número de teléfono válido');
+        Logger.step('Actualizando campo teléfono');
+        await profilePage.updateField('Teléfono', myProfileData.phone.valid);
+        Logger.termTest('TC025 - Teléfono válido agregado exitosamente');
+    });
+
+    /**
+     * TC026 Verificar que no permita agregar un número de teléfono con 1 dígito
+     * Verificar que el sistema muestre un mensaje de error al agregar un número de teléfono de 1 dígito en el perfil del usuario
+     */
+    test('TC026 - Verificar que no permita agregar un número de teléfono con 1 dígito', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC026 - Verificar que no permita agregar un número de teléfono con 1 dígito');
+        Logger.step('Intentando agregar teléfono con 1 dígito');
+        await profilePage.updateField('Teléfono', myProfileData.phone.invalidShort);
+        Logger.termTest('TC026 - Validación de teléfono corto completada');
+    });
+
+    /**
+     * TC027 Verificar que no permita agregar un número de teléfono con caracteres
+     * Verificar que el sistema muestre un mensaje de error al agregar un número de teléfono con caracteres en el perfil del usuario
+     */
+    test('TC027 - Verificar que no permita agregar un número de teléfono con caracteres', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC027 - Verificar que no permita agregar un número de teléfono con caracteres');
+        Logger.step('Intentando agregar teléfono con caracteres alfabéticos');
+        await profilePage.updateField('Teléfono', myProfileData.phone.invalidLetter);
+        Logger.termTest('TC027 - Validación de caracteres completada');
+    });
+
+    /**
+     * TC028 Verificar que no permita agregar un número de teléfono con caracteres especiales
+     * Verificar que el sistema muestre un mensaje de error al agregar un número de teléfono con caracteres especiales en el perfil del usuario
+     */
+    test('TC028 - Verificar que no permita agregar un número de teléfono con caracteres especiales', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC028 - Verificar que no permita agregar un número de teléfono con caracteres especiales');
+        Logger.step('Intentando agregar teléfono con caracteres especiales');
+        await profilePage.updateField('Teléfono', myProfileData.phone.invalidSpecialChar);
+        Logger.termTest('TC028 - Validación de caracteres especiales completada');
+    });
+
+    /**
+     * TC029 Verificar que no permita agregar un número de teléfono negativo
+     * Verificar que el sistema muestre un mensaje de error al agregar un número de teléfono negativo en el perfil del usuario
+     */
+    test('TC029 - Verificar que no permita agregar un número de teléfono negativo', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC029 - Verificar que no permita agregar un número de teléfono negativo');
+        Logger.step('Intentando agregar teléfono negativo');
+        await profilePage.updateField('Teléfono', myProfileData.phone.invalidNegative);
+        Logger.termTest('TC029 - Validación de número negativo completada');
+    });
+
+    /**
+     * TC030 Verificar que no permita agregar un número de teléfono con muchos dígitos
+     * Verificar que el sistema muestre un mensaje de error al agregar un número de teléfono excesivamente largo en el perfil del usuario
+     */
+    test('TC030 - Verificar que no permita agregar un número de teléfono con muchos dígitos', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC030 - Verificar que no permita agregar un número de teléfono con muchos dígitos');
+        Logger.step('Intentando agregar teléfono con demasiados dígitos');
+        await profilePage.updateField('Teléfono', myProfileData.phone.invalidLong);
+        Logger.termTest('TC030 - Validación de teléfono largo completada');
+    });
+
+    Logger.termTestSuite('Finalizando Suite: Validación del campo "Teléfono"');
 });
 
-/**
- * TC001 Agregar un numero de telefono vacio.
- * @param campo - The Playwright Page object.
- * @param valor - The Playwright Browser object.
- */
+test.describe('Suite: Validación del campo "Ubicación"', () => {
+    Logger.initTestSuite('Iniciando Suite: Validación del campo "Ubicación"');
 
-test('TC002 - agregar un numero de telefono vacio', async ({page, profilePage}) => {
-    Logger.initTest('agregar un numero de telefono vacio');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando campo telefono')
-    await profilePage.updateField('Teléfono', '');
-    Logger.termTest('test terminado exitosamente');
+    /**
+     * TC031 Verificar que permita agregar una ubicación válida
+     * Verificar que se pueda agregar una ubicación válida en el perfil del usuario
+     */
+    test('TC031 - Verificar que permita agregar una ubicación válida', 
+        {tag: ["@smoke", "@positive", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC031 - Verificar que permita agregar una ubicación válida');
+        Logger.step('Actualizando campo ubicación');
+        await profilePage.updateField('Ubicación', myProfileData.location.valid);
+        Logger.termTest('TC031 - Ubicación válida agregada exitosamente');
+    });
+
+    /**
+     * TC032 Verificar que no permita agregar una ubicación vacía
+     * Verificar que el sistema muestre un mensaje de error al intentar guardar una ubicación vacía en el perfil del usuario
+     */
+    test('TC032 - Verificar que no permita agregar una ubicación vacía', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC032 - Verificar que no permita agregar una ubicación vacía');
+        Logger.step('Intentando agregar ubicación vacía');
+        await profilePage.updateField('Ubicación', myProfileData.location.invalid);
+        Logger.termTest('TC032 - Validación de ubicación vacía completada');
+    });
+
+    /**
+     * TC033 Verificar que no permita agregar una ubicación con espacios vacíos
+     * Verificar que el sistema muestre un mensaje de error al intentar guardar una ubicación que contiene solo espacios en blanco
+     */
+    test.fail('TC033 - Verificar que no permita agregar una ubicación con espacios vacíos', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC033 - Verificar que no permita agregar una ubicación con espacios vacíos');
+        Logger.step('Intentando agregar ubicación con solo espacios');
+        await profilePage.updateField('Ubicación', myProfileData.location.invalidSpaces);
+        Logger.termTest('TC033 - Validación de espacios vacíos completada');
+    });
+
+    Logger.termTestSuite('Finalizando Suite: Validación del campo "Ubicación"');
 });
 
-/**
- * TC003 Agregar un numero de telefono con 1 digito.
- * @param campo - The Playwright Page object.
- * @param valor - The Playwright Browser object.
- */
+test.describe('Suite: Validación del campo "Teléfono Móvil"', () => {
+    Logger.initTestSuite('Iniciando Suite: Validación del campo "Teléfono Móvil"');
 
-test('TC003 - agregar un numero de telefono con 1 digito', async ({page, profilePage}) => {
-    Logger.initTest('agregar un numero de telefono con 1 digito');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando campo telefono')
-    await profilePage.updateField('Teléfono', '1');
-    Logger.termTest('test terminado exitosamente');
+    /**
+     * TC034 Verificar que permita agregar un número de teléfono móvil válido
+     * Verificar que se pueda agregar un número de teléfono móvil válido en el perfil del usuario
+     */
+    test('TC034 - Verificar que permita agregar un número de teléfono móvil válido', 
+        {tag: ["@smoke", "@positive", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC034 - Verificar que permita agregar un número de teléfono móvil válido');
+        Logger.step('Actualizando campo teléfono móvil');
+        await profilePage.updateField('Teléfono móvil', myProfileData.phone.valid);
+        Logger.termTest('TC034 - Teléfono móvil válido agregado exitosamente');
+    });
+
+    /**
+     * TC035 Verificar que no permita agregar un número de teléfono móvil con 1 dígito
+     * Verificar que el sistema muestre un mensaje de error al agregar un número de teléfono móvil de 1 dígito
+     */
+    test('TC035 - Verificar que no permita agregar un número de teléfono móvil con 1 dígito', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC035 - Verificar que no permita agregar un número de teléfono móvil con 1 dígito');
+        Logger.step('Intentando agregar teléfono móvil con 1 dígito');
+        await profilePage.updateField('Teléfono móvil', myProfileData.phone.invalidShort);
+        Logger.termTest('TC035 - Validación de teléfono móvil corto completada');
+    });
+
+    /**
+     * TC036 Verificar que no permita agregar un número de teléfono móvil con caracteres
+     * Verificar que el sistema muestre un mensaje de error al agregar un número de teléfono móvil con caracteres alfabéticos
+     */
+    test('TC036 - Verificar que no permita agregar un número de teléfono móvil con caracteres', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC036 - Verificar que no permita agregar un número de teléfono móvil con caracteres');
+        Logger.step('Intentando agregar teléfono móvil con caracteres');
+        await profilePage.updateField('Teléfono móvil', myProfileData.phone.invalidLetter);
+        Logger.termTest('TC036 - Validación de caracteres completada');
+    });
+
+    /**
+     * TC037 Verificar que no permita agregar un número de teléfono móvil con caracteres especiales
+     * Verificar que el sistema muestre un mensaje de error al agregar un número de teléfono móvil con caracteres especiales
+     */
+    test('TC037 - Verificar que no permita agregar un número de teléfono móvil con caracteres especiales', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC037 - Verificar que no permita agregar un número de teléfono móvil con caracteres especiales');
+        Logger.step('Intentando agregar teléfono móvil con caracteres especiales');
+        await profilePage.updateField('Teléfono móvil', myProfileData.phone.invalidSpecialChar);
+        Logger.termTest('TC037 - Validación de caracteres especiales completada');
+    });
+
+    /**
+     * TC038 Verificar que no permita agregar un número de teléfono móvil negativo
+     * Verificar que el sistema muestre un mensaje de error al agregar un número de teléfono móvil negativo
+     */
+    test('TC038 - Verificar que no permita agregar un número de teléfono móvil negativo', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC038 - Verificar que no permita agregar un número de teléfono móvil negativo');
+        Logger.step('Intentando agregar teléfono móvil negativo');
+        await profilePage.updateField('Teléfono móvil', myProfileData.phone.invalidNegative);
+        Logger.termTest('TC038 - Validación de número negativo completada');
+    });
+
+    /**
+     * TC039 Verificar que no permita agregar un número de teléfono móvil con muchos dígitos
+     * Verificar que el sistema muestre un mensaje de error al agregar un número de teléfono móvil excesivamente largo
+     */
+    test('TC039 - Verificar que no permita agregar un número de teléfono móvil con muchos dígitos', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC039 - Verificar que no permita agregar un número de teléfono móvil con muchos dígitos');
+        Logger.step('Intentando agregar teléfono móvil con demasiados dígitos');
+        await profilePage.updateField('Teléfono móvil', myProfileData.phone.invalidLong);
+        Logger.termTest('TC039 - Validación de teléfono móvil largo completada');
+    });
+
+    Logger.termTestSuite('Finalizando Suite: Validación del campo "Teléfono Móvil"');
 });
 
-/**
- * TC004 Agregar un numero de telefono valido.
- * @param campo - The Playwright Page object.
- * @param valor - The Playwright Browser object.
- */
+test.describe('Suite: Validación del campo "Cumpleaños"', () => {
+    Logger.initTestSuite('Iniciando Suite: Validación del campo "Cumpleaños"');
 
-test('TC004 - agregar un numero de telefono con caracteres', async ({page, profilePage}) => {
-    Logger.initTest('agregar un numero de telefono con caracteres');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando campo telefono')
-    await profilePage.updateField('Teléfono', 'a');
-    Logger.termTest('test terminado exitosamente');
+    /**
+     * TC040 Verificar que permita agregar una fecha de cumpleaños válida
+     * Verificar que se pueda agregar una fecha de cumpleaños válida en el perfil del usuario
+     */
+    test('TC040 - Verificar que permita agregar una fecha de cumpleaños válida', 
+        {tag: ["@smoke", "@positive", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC040 - Verificar que permita agregar una fecha de cumpleaños válida');
+        Logger.step('Actualizando fecha de cumpleaños');
+        await profilePage.updateDateField('Cumpleaños', myProfileData.dates.validBirthday);
+        const expectedDisplayDate = dateFormatted(myProfileData.dates.validBirthday);
+        await expect(page.getByText(expectedDisplayDate)).toBeVisible();
+        Logger.termTest('TC040 - Fecha de cumpleaños válida agregada exitosamente');
+    });
+
+    /**
+     * TC041 Verificar que no permita agregar una fecha de cumpleaños con fecha futura
+     * Verificar que el sistema muestre un mensaje de error al intentar agregar una fecha de cumpleaños en el futuro
+     */
+    test.fail('TC041 - Verificar que no permita agregar una fecha de cumpleaños con fecha futura', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC041 - Verificar que no permita agregar una fecha de cumpleaños con fecha futura');
+        Logger.step('Intentando agregar fecha futura');
+        await profilePage.updateDateField('Cumpleaños', myProfileData.dates.invalidFuture);
+        await profilePage.assertInvalidDateMessage('Cumpleaños');
+        Logger.termTest('TC041 - Validación de fecha futura completada');
+    });
+
+    /**
+     * TC042 Verificar que no permita agregar una fecha de cumpleaños con año inválido
+     * Verificar que el sistema muestre un mensaje de error al intentar agregar una fecha de cumpleaños con un año inválido
+     */
+    test.fail('TC042 - Verificar que no permita agregar una fecha de cumpleaños con año inválido', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC042 - Verificar que no permita agregar una fecha de cumpleaños con año inválido');
+        Logger.step('Intentando agregar fecha con año inválido');
+        await profilePage.updateDateField('Cumpleaños', myProfileData.dates.invalidYear);
+        await profilePage.assertInvalidDateMessage('Cumpleaños');
+        Logger.termTest('TC042 - Validación de año inválido completada');
+    });
+
+    /**
+     * TC043 Verificar que no permita agregar una fecha de cumpleaños con mes inválido
+     * Verificar que el sistema corrija o rechace una fecha de cumpleaños con un mes inválido (mayor a 12)
+     */
+    test('TC043 - Verificar que no permita agregar una fecha de cumpleaños con mes inválido', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC043 - Verificar que no permita agregar una fecha de cumpleaños con mes inválido');
+        Logger.step('Intentando agregar fecha con mes inválido');
+        await profilePage.updateDateField('Cumpleaños', myProfileData.dates.invalidMonth);
+        const dateModified = 'Dec 1, 2025';
+        await expect(page.getByText(dateModified)).toBeVisible();
+        Logger.termTest('TC043 - Validación de mes inválido completada');
+    });
+
+    /**
+     * TC044 Verificar que no permita agregar una fecha de cumpleaños con día inválido
+     * Verificar que el sistema muestre un mensaje de error al intentar agregar una fecha de cumpleaños con un día inválido
+     */
+    test('TC044 - Verificar que no permita agregar una fecha de cumpleaños con día inválido', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC044 - Verificar que no permita agregar una fecha de cumpleaños con día inválido');
+        Logger.step('Intentando agregar fecha con día inválido');
+        await profilePage.updateDateField('Cumpleaños', myProfileData.dates.invalidDay);
+        await profilePage.assertInvalidDateMessage('Cumpleaños');
+        Logger.termTest('TC044 - Validación de día inválido completada');
+    });
+
+    Logger.termTestSuite('Finalizando Suite: Validación del campo "Cumpleaños"');
 });
 
-/**
- * TC005 Agregar un numero de telefono valido.
- * @param campo - The Playwright Page object.
- * @param valor - The Playwright Browser object.
- */
+test.describe('Suite: Validación del campo "Aniversario de trabajo"', () => {
+    Logger.initTestSuite('Iniciando Suite: Validación del campo "Aniversario de trabajo"');
 
-test('TC005 - agregar un numero de telefono con caracteres especiales', async ({page, profilePage}) => {
-    Logger.initTest('agregar un numero de telefono con caracteres especiales');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando campo telefono')
-    await profilePage.updateField('Teléfono', '%');
-    Logger.termTest('test terminado exitosamente');
+    /**
+     * TC045 Verificar que permita agregar una fecha de aniversario de trabajo válida
+     * Verificar que se pueda agregar una fecha de aniversario de trabajo válida en el perfil del usuario
+     */
+    test('TC045 - Verificar que permita agregar una fecha de aniversario de trabajo válida', 
+        {tag: ["@smoke", "@positive", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC045 - Verificar que permita agregar una fecha de aniversario de trabajo válida');
+        Logger.step('Actualizando fecha de aniversario de trabajo');
+        await profilePage.updateDateField('Aniversario de trabajo', myProfileData.dates.validBirthday);
+        const expectedDisplayDate = dateFormatted(myProfileData.dates.validBirthday);
+        await expect(page.getByText(expectedDisplayDate)).toBeVisible();
+        Logger.termTest('TC045 - Fecha de aniversario válida agregada exitosamente');
+    });
+
+    /**
+     * TC046 Verificar que no permita agregar una fecha de aniversario de trabajo con fecha futura
+     * Verificar que el sistema muestre un mensaje de error al intentar agregar una fecha de aniversario en el futuro
+     */
+    test.fail('TC046 - Verificar que no permita agregar una fecha de aniversario de trabajo con fecha futura', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC046 - Verificar que no permita agregar una fecha de aniversario de trabajo con fecha futura');
+        Logger.step('Intentando agregar fecha futura');
+        await profilePage.updateDateField('Aniversario de trabajo', myProfileData.dates.invalidFuture);
+        await profilePage.assertInvalidDateMessage('Aniversario de trabajo');
+        Logger.termTest('TC046 - Validación de fecha futura completada');
+    });
+
+    /**
+     * TC047 Verificar que no permita agregar una fecha de aniversario de trabajo con año inválido
+     * Verificar que el sistema muestre un mensaje de error al intentar agregar una fecha de aniversario con un año inválido
+     */
+    test.fail('TC047 - Verificar que no permita agregar una fecha de aniversario de trabajo con año inválido', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC047 - Verificar que no permita agregar una fecha de aniversario de trabajo con año inválido');
+        Logger.step('Intentando agregar fecha con año inválido');
+        await profilePage.updateDateField('Aniversario de trabajo', myProfileData.dates.invalidYear);
+        await profilePage.assertInvalidDateMessage('Aniversario de trabajo');
+        Logger.termTest('TC047 - Validación de año inválido completada');
+    });
+
+    /**
+     * TC048 Verificar que no permita agregar una fecha de aniversario de trabajo con mes inválido
+     * Verificar que el sistema corrija o rechace una fecha de aniversario con un mes inválido (mayor a 12)
+     */
+    test('TC048 - Verificar que no permita agregar una fecha de aniversario de trabajo con mes inválido', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC048 - Verificar que no permita agregar una fecha de aniversario de trabajo con mes inválido');
+        Logger.step('Intentando agregar fecha con mes inválido');
+        await profilePage.updateDateField('Aniversario de trabajo', myProfileData.dates.invalidMonth);
+        const dateModified = 'Dec 1, 2025';
+        await expect(page.getByText(dateModified)).toBeVisible();
+        Logger.termTest('TC048 - Validación de mes inválido completada');
+    });
+
+    /**
+     * TC049 Verificar que no permita agregar una fecha de aniversario de trabajo con día inválido
+     * Verificar que el sistema muestre un mensaje de error al intentar agregar una fecha de aniversario con un día inválido
+     */
+    test('TC049 - Verificar que no permita agregar una fecha de aniversario de trabajo con día inválido', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC049 - Verificar que no permita agregar una fecha de aniversario de trabajo con día inválido');
+        Logger.step('Intentando agregar fecha con día inválido');
+        await profilePage.updateDateField('Aniversario de trabajo', myProfileData.dates.invalidDay);
+        await profilePage.assertInvalidDateMessage('Aniversario de trabajo');
+        Logger.termTest('TC049 - Validación de día inválido completada');
+    });
+
+    Logger.termTestSuite('Finalizando Suite: Validación del campo "Aniversario de trabajo"');
 });
 
-/**
- * TC006 Agregar un numero de telefono valido.
- * @param campo - The Playwright Page object.
- * @param valor - The Playwright Browser object.
- */
+test.describe('Suite: Validación del campo "Contraseña"', () => {
+    Logger.initTestSuite('Iniciando Suite: Validación del campo "Contraseña"');
 
-test('TC006 - agregar un numero de telefono negativo', async ({page, profilePage}) => {
-    Logger.initTest('agregar un numero de telefono negativo');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando campo telefono')
-    await profilePage.updateField('Teléfono', '-77968051');
-    Logger.termTest('test terminado exitosamente');
-});
+    /**
+     * TC050 Verificar que permita cambiar a una contraseña válida
+     * Verificar que el sistema permita cambiar la contraseña cuando se proporciona una contraseña válida y la contraseña actual correcta
+     */
+    test('TC050 - Verificar que permita cambiar a una contraseña válida', 
+        {tag: ["@smoke", "@positive", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC050 - Verificar que permita cambiar a una contraseña válida');
+        Logger.step('Actualizando contraseña');
+        await profilePage.updatePassword(myProfileData.password.current, myProfileData.password.validNew, myProfileData.password.validNew);
+        await expect(profilePage.succeededMessage).toBeVisible();
+        Logger.termTest('TC050 - Contraseña cambiada exitosamente');
+    });
 
-/**
- * TC007 Agregar un numero de telefono valido.
- * @param campo - The Playwright Page object.
- * @param valor - The Playwright Browser object.
- */
+    /**
+     * TC051 Verificar que no permita cambiar a una contraseña válida con la contraseña actual incorrecta
+     * Verificar que el sistema muestre un mensaje de error cuando se intenta cambiar la contraseña pero la contraseña actual es incorrecta
+     */
+    test('TC051 - Verificar que no permita cambiar contraseña con contraseña actual incorrecta', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC051 - Verificar que no permita cambiar contraseña con contraseña actual incorrecta');
+        Logger.step('Intentando cambiar contraseña con contraseña actual incorrecta');
+        await profilePage.updatePassword(myProfileData.phone.invalidLetter, myProfileData.password.validNew, myProfileData.password.validNew);
+        await expect(profilePage.errorMessage).toBeVisible();
+        Logger.termTest('TC051 - Validación de contraseña actual incorrecta completada');
+    });
 
-test('TC007 - agregar un numero de telefono con muchos digitos', async ({page, profilePage}) => {
-    Logger.initTest('agregar un numero de telefono con muchos digitos');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando campo telefono')
-    await profilePage.updateField('Teléfono', '777777777777777777777777777777777777777777777777');
-    Logger.termTest('test terminado exitosamente');
-});
+    /**
+     * TC052 Verificar que no permita cambiar a una contraseña con menos de 8 caracteres
+     * Verificar que el sistema muestre un mensaje de error cuando se intenta establecer una contraseña con menos de 8 caracteres
+     */
+    test('TC052 - Verificar que no permita cambiar a una contraseña con menos de 8 caracteres', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC052 - Verificar que no permita cambiar a una contraseña con menos de 8 caracteres');
+        Logger.step('Intentando cambiar a contraseña corta');
+        await profilePage.updatePasswordDisabled(myProfileData.password.validNew, myProfileData.password.invalidShort, myProfileData.password.invalidShort);
+        await expect(profilePage.passwordErrorMessage).toBeVisible();
+        Logger.termTest('TC052 - Validación de contraseña corta completada');
+    });
 
-/**
- * TC008 Agregar un numero de telefono valido.
- * @param campo - The Playwright Page object.
- * @param valor - The Playwright Browser object.
- */
+    /**
+     * TC053 Verificar que no permita cambiar a una contraseña con carácter repetido
+     * Verificar que el sistema muestre un mensaje de error cuando se intenta establecer una contraseña con un solo carácter repetido
+     */
+    test('TC053 - Verificar que no permita cambiar a una contraseña con carácter repetido', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC053 - Verificar que no permita cambiar a una contraseña con carácter repetido');
+        Logger.step('Intentando cambiar a contraseña con carácter repetido');
+        await profilePage.updatePasswordDisabled(myProfileData.password.validNew, myProfileData.password.invalidRepeated, myProfileData.password.invalidRepeated);
+        await expect(profilePage.passwordRepeatedErrorMessage).toBeVisible();
+        Logger.termTest('TC053 - Validación de carácter repetido completada');
+    });
 
-test('TC008 - agregar una ubicacion valida', async ({page, profilePage}) => {
-    Logger.initTest('agregar agregar una ubicacion valida');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando campo ubicacion')
-    await profilePage.updateField('Ubicación', 'ladislao cabrera');
-    Logger.termTest('test terminado exitosamente');
-});
+    /**
+     * TC054 Verificar que no permita cambiar a una contraseña con 256 caracteres
+     * Verificar que el sistema muestre un mensaje de error cuando se intenta establecer una contraseña excesivamente larga (256+ caracteres)
+     */
+    test('TC054 - Verificar que no permita cambiar a una contraseña con 256 caracteres', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC054 - Verificar que no permita cambiar a una contraseña con 256 caracteres');
+        Logger.step('Intentando cambiar a contraseña muy larga');
+        const longInvalidPassword = randomstring.generate({length: 260, charset: 'alphanumeric'});
+        await profilePage.updatePassword(myProfileData.password.validNew, longInvalidPassword, longInvalidPassword);
+        await expect(profilePage.errorMessage).toBeVisible();
+        Logger.termTest('TC054 - Validación de contraseña larga completada');
+    });
 
-/**
- * TC009 Agregar un numero de telefono valido.
- * @param campo - The Playwright Page object.
- * @param valor - The Playwright Browser object.
- */
+    /**
+     * TC055 Verificar que no permita cambiar a una contraseña diferente a la contraseña de confirmación
+     * Verificar que el sistema muestre un mensaje de error cuando la nueva contraseña y la confirmación no coinciden
+     */
+    test('TC055 - Verificar que no permita cambiar contraseña si no coincide con confirmación', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC055 - Verificar que no permita cambiar contraseña si no coincide con confirmación');
+        Logger.step('Intentando cambiar contraseña con confirmación diferente');
+        await profilePage.updatePasswordDisabled(myProfileData.password.validNew, myProfileData.password.validNew, 'contrasena1234');
+        await expect(profilePage.passwordMissmatchErrorMessage).toBeVisible();
+        Logger.termTest('TC055 - Validación de confirmación diferente completada');
+    });
 
-test('TC009 - agregar una ubicacion vacia', async ({page, profilePage}) => {
-    Logger.initTest('agregar agregar una ubicacion vacia');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando campo ubicacion')
-    await profilePage.updateField('Ubicación', '');
-    Logger.termTest('test terminado exitosamente');
-});
+    /**
+     * TC056 Verificar que no permita cambiar a una contraseña con espacios vacíos
+     * Verificar que el sistema muestre un mensaje de error cuando se intenta establecer una contraseña que contiene espacios vacíos
+     */
+    test.fail('TC056 - Verificar que no permita cambiar a una contraseña con espacios vacíos', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC056 - Verificar que no permita cambiar a una contraseña con espacios vacíos');
+        Logger.step('Intentando cambiar a contraseña con espacios vacíos');
+        await profilePage.updatePassword(myProfileData.password.validNew, myProfileData.password.invalidSpaces, myProfileData.password.invalidSpaces);
+        await expect(profilePage.errorMessage).toBeVisible();
+        Logger.termTest('TC056 - Validación de espacios vacíos completada');
+    });
 
-/**
- * TC010 Agregar un numero de telefono valido.
- * @param campo - The Playwright Page object.
- * @param valor - The Playwright Browser object.
- */
-
-test.fail('TC010 - agregar una ubicacion con espacios vacios', async ({page, profilePage}) => {
-    Logger.initTest('agregar agregar una ubicacion con espacios vacios');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando campo ubicacion')
-    await profilePage.updateField('Ubicación', '       ');
-    Logger.termTest('test terminado exitosamente');
-});
-
-/**
- * TC011 Agregar un numero de telefono valido.
- * @param campo - The Playwright Page object.
- * @param valor - The Playwright Browser object.
- */
-
-test('TC011 - agregar un numero de telefono movil valido', async ({page, profilePage}) => {
-    Logger.initTest('agregar un numero de telefono movil valido');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando campo telefono')
-    await profilePage.updateField('Teléfono móvil', '77968051');
-    Logger.termTest('test terminado exitosamente');
-});
-
-/**
- * TC012 Agregar un numero de telefono vacio.
- * @param campo - The Playwright Page object.
- * @param valor - The Playwright Browser object.
- */
-
-test('TC012 - agregar un numero de telefono movil vacio', async ({page, profilePage}) => {
-    Logger.initTest('agregar un numero de telefono movil vacio');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando campo telefono')
-    await profilePage.updateField('Teléfono móvil', '');
-    Logger.termTest('test terminado exitosamente');
-});
-
-/**
- * TC014 Agregar un numero de telefono con 1 digito.
- * @param campo - The Playwright Page object.
- * @param valor - The Playwright Browser object.
- */
-
-test('TC013 - agregar un numero de telefono movil con 1 digito', async ({page, profilePage}) => {
-    Logger.initTest('agregar un numero de telefono movil con 1 digito');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando campo telefono')
-    await profilePage.updateField('Teléfono móvil', '1');
-    Logger.termTest('test terminado exitosamente');
-});
-
-/**
- * TC015 Agregar un numero de telefono valido.
- * @param campo - The Playwright Page object.
- * @param valor - The Playwright Browser object.
- */
-
-test('TC015 - agregar un numero de telefono movil con caracteres', async ({page, profilePage}) => {
-    Logger.initTest('agregar un numero de telefono movil con caracteres');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando campo telefono')
-    await profilePage.updateField('Teléfono móvil', 'a');
-    Logger.termTest('test terminado exitosamente');
-});
-
-/**
- * TC016 Agregar un numero de telefono valido.
- * @param campo - The Playwright Page object.
- * @param valor - The Playwright Browser object.
- */
-
-test('TC016 - agregar un numero de telefono movil con caracteres especiales', async ({page, profilePage}) => {
-    Logger.initTest('agregar un numero de telefono movil con caracteres especiales');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando campo telefono')
-    await profilePage.updateField('Teléfono móvil', '%');
-    Logger.termTest('test terminado exitosamente');
-});
-
-/**
- * TC017 Agregar un numero de telefono valido.
- * @param campo - The Playwright Page object.
- * @param valor - The Playwright Browser object.
- */
-
-test('TC017 - agregar un numero de telefono movil negativo', async ({page, profilePage}) => {
-    Logger.initTest('agregar un numero de telefono movil negativo');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando campo telefono')
-    await profilePage.updateField('Teléfono móvil', '-77968051');
-    Logger.termTest('test terminado exitosamente');
-});
-
-/**
- * TC018 Agregar un numero de telefono valido.
- * @param campo - The Playwright Page object.
- * @param valor - The Playwright Browser object.
- */
-
-test('TC018 - agregar un numero de telefono movil con muchos digitos', async ({page, profilePage}) => {
-    Logger.initTest('agregar un numero de telefono movil con muchos digitos');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando campo telefono')
-    await profilePage.updateField('Teléfono móvil', '777777777777777777777777777777777777777777777777');
-    Logger.termTest('test terminado exitosamente');
-});
-
-test('TC036 - agregar una fecha de cumpleanos valida', async ({page, profilePage}) => {
-    Logger.initTest('agregar una fecha de cumpleanos valida');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando fecha de cumpleanos')
-    const date = '27042001';
-    await profilePage.updateDateField('Cumpleaños', date);
-    const expectedDisplayDate = dateFormatted(date);
-    await expect(page.getByText(expectedDisplayDate)).toBeVisible();
-    Logger.termTest('test terminado exitosamente');
-});
-
-test.fail('TC037 - verificar que no permitar agregar una fecha de cumpleanos con fecha futura', async ({page, profilePage}) => {
-    Logger.initTest('agregar una fecha de cumpleanos con fecha futura');
-    Logger.step('Ingresando a la url');  
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando fecha de cumpleanos')
-    const date = '23112025';
-    const type = 'Cumpleaños';
-    await profilePage.updateDateField('Cumpleaños', date);
-    await profilePage.assertInvalidDateMessage(type);
-    Logger.termTest('test terminado exitosamente');
-});
-
-test.fail('TC038 - agregar una fecha de cumpleanos con año inválido', async ({page, profilePage}) => {
-    Logger.initTest('agregar una fecha de cumpleanos con año inválido');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando fecha de cumpleanos')
-    const date = '231112345';
-    const type = 'Cumpleaños';
-    await profilePage.updateDateField('Cumpleaños', date);
-    await profilePage.assertInvalidDateMessage(type);
-    Logger.termTest('test terminado exitosamente');
-});
-
-test('TC039 - agregar una fecha de cumpleanos con mes inválido', async ({page, profilePage}) => {
-    Logger.initTest('agregar una fecha de cumpleanos con mes inválido');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando fecha de cumpleanos')
-    const date = '01152025'
-    const type = 'Cumpleaños';
-    const dateModified = 'Dec 1, 2025';
-    await profilePage.updateDateField(type, date);
-    await expect(page.getByText(dateModified)).toBeVisible();
-    Logger.termTest('test terminado exitosamente');
-});
-
-test('TC040 - agregar una fecha de cumpleanos con día inválido', async ({page, profilePage}) => {
-    Logger.initTest('agregar una fecha de cumpleanos con día inválido');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando fecha de cumpleanos');
-    const date = '32112025';
-    const type = 'Cumpleaños';
-    await profilePage.updateDateField(type, date);
-    await profilePage.assertInvalidDateMessage(type);
-    Logger.termTest('test terminado exitosamente');
-});
-
-test('TC041 - agregar una fecha de Aniversario de trabajo valida', async ({page, profilePage}) => {
-    Logger.initTest('agregar una fecha de Aniversario de trabajo valida');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando fecha de Aniversario de trabajo')
-    const date = '27042001';
-    await profilePage.updateDateField('Aniversario de trabajo', date);
-    const expectedDisplayDate = dateFormatted(date);
-    await expect(page.getByText(expectedDisplayDate)).toBeVisible();
-    Logger.termTest('test terminado exitosamente');
-});
-
-test.fail('TC042 - verificar que no permitar agregar una fecha de Aniversario de trabajo con fecha futura', async ({page, profilePage}) => {
-    Logger.initTest('agregar una fecha de Aniversario de trabajo con fecha futura');
-    Logger.step('Ingresando a la url');  
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando fecha de Aniversario de trabajo')
-    const date = '23112025';
-    const type = 'Aniversario de trabajo';
-    await profilePage.updateDateField(type, date);
-    await profilePage.assertInvalidDateMessage(type);
-    Logger.termTest('test terminado exitosamente');
-});
-
-test.fail('TC043 - agregar una fecha de Aniversario de trabajo con año inválido', async ({page, profilePage}) => {
-    Logger.initTest('agregar una fecha de Aniversario de trabajo con año inválido');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando fecha de Aniversario de trabajo')
-    const date = '231112345';
-    const type = 'Aniversario de trabajo';
-    await profilePage.updateDateField(type, date);
-    await profilePage.assertInvalidDateMessage(type);
-    Logger.termTest('test terminado exitosamente');
-});
-
-test('TC044 - agregar una fecha de Aniversario de trabajo con mes inválido', async ({page, profilePage}) => {
-    Logger.initTest('agregar una fecha de Aniversario de trabajo con mes inválido');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando fecha de Aniversario de trabajo')
-    const date = '01152025'
-    const type = 'Aniversario de trabajo';
-    const dateModified = 'Dec 1, 2025';
-    await profilePage.updateDateField(type, date);
-    await expect(page.getByText(dateModified)).toBeVisible();
-    Logger.termTest('test terminado exitosamente');
-});
-
-test('TC045 - agregar una fecha de Aniversario de trabajo con día inválido', async ({page, profilePage}) => {
-    Logger.initTest('agregar una fecha de Aniversario de trabajo con día inválido');
-    Logger.step('Ingresando a la url');
-    await profilePage.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando fecha de Aniversario de trabajo');
-    const date = '32112025';
-    const type = 'Aniversario de trabajo';
-    await profilePage.updateDateField(type, date);
-    await profilePage.assertInvalidDateMessage(type);
-    Logger.termTest('test terminado exitosamente');
-});
-
-
-test('TC029 - cambiar a una contraseña válida', async ({page, profilePage}) => {
-    Logger.initTest('cambiar a una contraseña válida');
-    Logger.step('Ingresando a la url');
-    await page.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando contrasena')
-    await profilePage.updatePassword('chocomei7v7', 'contrasena123', 'contrasena123');
-    await expect(profilePage.succeededMessage).toBeVisible();
-    Logger.termTest('test terminado exitosamente');
-});
-
-test('TC030 - cambiar a una contraseña válida con la contrasena actual incorrecta', async ({page, profilePage}) => {
-    Logger.initTest('cambiar a una contraseña válida con la contrasena actual incorrecta');
-    Logger.step('Ingresando a la url');
-    await page.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando contrasena')
-    await profilePage.updatePassword('a', 'contrasena123', 'contrasena123');
-    await expect(profilePage.errorMessage).toBeVisible();
-    Logger.termTest('test terminado exitosamente');
-});
-
-test('TC031 - cambiar a una contraseña con menos de 8 caracteres', async ({page, profilePage}) => {
-    Logger.initTest('cambiar a una contraseña con menos de 8 caracteres');
-    Logger.step('Ingresando a la url');
-    await page.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando contrasena')
-    await profilePage.updatePasswordDisabled('contrasena123', '123', '123');
-    await expect(profilePage.passwordErrorMessage).toBeVisible();
-    Logger.termTest('test terminado exitosamente');
-});
-
-test('TC032 - cambiar a una contraseña con caracter repetido', async ({page, profilePage}) => {
-    Logger.initTest('cambiar a una contraseña con caracter repetido');
-    Logger.step('Ingresando a la url');
-    await page.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando contrasena')
-    await profilePage.updatePasswordDisabled('contrasena123', 'aaaaaaaa', 'aaaaaaaa');
-    await expect(profilePage.passwordRepeatedErrorMessage).toBeVisible();
-    Logger.termTest('test terminado exitosamente');
-});
-
-test('TC033 - cambiar a una contraseña con 256 caracteres', async ({page, profilePage}) => {
-    Logger.initTest('cambiar a una contraseña con 256 caracteres');
-    Logger.step('Ingresando a la url');
-    await page.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando contrasena');
-    const longInvalidPassword = randomstring.generate({length: 260, charset: 'alphanumeric'});
-    await profilePage.updatePassword('contrasena123', longInvalidPassword, longInvalidPassword);
-    await expect(profilePage.errorMessage).toBeVisible();
-    Logger.termTest('test terminado exitosamente');
-});
-
-test('TC034 - cambiar a una contraseña diferente a la contraseña de confirmacion', async ({page, profilePage}) => {
-    Logger.initTest('cambiar a una contraseña diferente a la contraseña de confirmacion');
-    Logger.step('Ingresando a la url');
-    await page.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando contrasena');
-    await profilePage.updatePasswordDisabled('contrasena123', 'contrasena123','contrasena1234' );
-    await expect(profilePage.passwordMissmatchErrorMessage).toBeVisible();
-    Logger.termTest('test terminado exitosamente');
-});
-
-test.fail('TC035 - cambiar a una contraseña con espacios vacios', async ({page, profilePage}) => {
-    Logger.initTest('cambiar a una contraseña con espacios vacios');
-    Logger.step('Ingresando a la url');
-    await page.goto('https://srfgsdrges-team.monday.com/');
-    Logger.step('Actualizando contrasena');
-    await profilePage.updatePassword('contrasena123', '        A','        A' );
-    await expect(profilePage.errorMessage).toBeVisible();
-    Logger.termTest('test terminado exitosamente');
+    Logger.termTestSuite('Finalizando Suite: Validación del campo "Contraseña"');
 });

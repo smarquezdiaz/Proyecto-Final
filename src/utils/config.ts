@@ -6,6 +6,7 @@ export const Config = {
   BASE_URL: process.env.BASE_URL || 'https://srfgsdrges-team.monday.com',
   LOGIN_URL: process.env.LOGIN_URL || 'https://monday.com/lang/es',
   WORK_URL: process.env.WORK_URL || 'https://srfgsdrges-team.monday.com/my_work',
+  PANEL_URL: process.env.PANEL_URL || 'https://srfgsdrges-team.monday.com/overviews/33650588',
 
   MONDAY_EMAIL: process.env.MONDAY_EMAIL || '',
   MONDAY_PASSWORD: process.env.MONDAY_PASSWORD || '',

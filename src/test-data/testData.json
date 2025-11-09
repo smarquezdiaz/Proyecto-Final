@@ -46,6 +46,7 @@
     "phone": {
       "valid": "77968051",
       "invalid": "",
+      "invalidShort": "1",
       "invalidNegative": "-77968051",
       "invalidLetter": "a",
       "invalidSpecialChar": "%",
