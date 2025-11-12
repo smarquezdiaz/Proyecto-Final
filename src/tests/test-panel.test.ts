@@ -20,9 +20,9 @@ test.describe('Suite: Validación de la tarjeta "Tareas Importantes"', () => {
      * TC057 Verificar que permita editar el título del card "Tareas Importantes"
      * Verificar que el sistema permita editar el título de la tarjeta "Tareas Importantes" con un título válido
      */
-    test('TC057 - Verificar que permita editar el título con un título válido', 
+    test('TC057 - Verificar que permita editar el título del card "Tareas Importantes"', 
         {tag: ["@smoke", "@positive", "@regression"],}, async ({panelPage}) => {
-        Logger.initTest('TC057 - Verificar que permita editar el título con un título válido');
+        Logger.initTest('TC057 - Verificar que permita editar el título del card "Tareas Importantes"');
         Logger.step('Editando título de la tarjeta a un valor válido');
         await panelPage.goTo();
         await panelPage.editCardTitle(CARD_TITLE, myWorkData.tasks.title.valid);
@@ -34,13 +34,13 @@ test.describe('Suite: Validación de la tarjeta "Tareas Importantes"', () => {
     });
     
     /**
-     * TC058 Verificar que permita editar el título con 255 caracteres
+     * TC058 Verificar que permita editar el título del card "Tareas Importantes" con 255 caracteres
      * Verificar que el sistema permita editar el título de la tarjeta con exactamente 255 caracteres (límite máximo)
      */
-    test('TC058 - Verificar que permita editar el título con 255 caracteres', 
+    test('TC058 - Verificar que permita editar el título del card "Tareas Importantes" con 255 caracteres', 
         {tag: ["@positive", "@regression"],}, async ({panelPage}) => {
         try {
-            Logger.initTest('TC058 - Verificar que permita editar el título con 255 caracteres');
+            Logger.initTest('TC058 - Verificar que permita editar el título del card "Tareas Importantes" con 255 caracteres');
             Logger.step('Editando título a 255 caracteres');
             await panelPage.goTo();
             await panelPage.editCardTitle(CARD_TITLE, myWorkData.tasks.title.validMax);
@@ -57,12 +57,12 @@ test.describe('Suite: Validación de la tarjeta "Tareas Importantes"', () => {
     });
 
     /**
-     * TC059 Verificar que se pueda duplicar la tarjeta
+     * TC059 Verificar que se pueda duplicar la tarjeta "Tareas Importantes"
      * Verificar que el sistema permita duplicar la tarjeta "Tareas Importantes" correctamente
      */
-    test('TC059 - Verificar que se pueda duplicar la tarjeta', 
+    test('TC059 - Verificar que se pueda duplicar la tarjeta "Tareas Importantes"', 
         {tag: ["@positive", "@regression"],}, async ({panelPage, page}) => {
-        Logger.initTest('TC059 - Verificar que se pueda duplicar la tarjeta');
+        Logger.initTest('TC059 - Verificar que se pueda duplicar la tarjeta "Tareas Importantes"');
         Logger.step('Verificando cantidad inicial de tarjetas');
         await panelPage.goTo();
         const initialCount = await panelPage.getCardCount(CARD_TITLE);
@@ -80,13 +80,13 @@ test.describe('Suite: Validación de la tarjeta "Tareas Importantes"', () => {
     });
     
     /**
-     * TC060 Verificar que no permita editar el título con más de 255 caracteres
+     * TC060 Verificar que no permita editar el título del card "Tareas Importantes" con más de 255 caracteres
      * Verificar que el sistema muestre un mensaje de error cuando se intenta editar el título con más de 255 caracteres
      */
-    test.fail('TC060 - Verificar que no permita editar el título con más de 255 caracteres', 
+    test.fail('TC060 - Verificar que no permita editar el título del card "Tareas Importantes" con más de 255 caracteres', 
         {tag: ["@negative", "@regression"],}, async ({panelPage}) => {
         try {
-            Logger.initTest('TC060 - Verificar que no permita editar el título con más de 255 caracteres');
+            Logger.initTest('TC060 - Verificar que no permita editar el título del card "Tareas Importantes" con más de 255 caracteres');
             Logger.step('Intentando editar título con más de 255 caracteres');
             await panelPage.goTo();
             await panelPage.editCardTitle(CARD_TITLE, myWorkData.tasks.title.invalidLong);
@@ -100,13 +100,13 @@ test.describe('Suite: Validación de la tarjeta "Tareas Importantes"', () => {
     });
 
     /**
-     * TC061 Verificar que no permita dejar el título vacío
+     * TC061 Verificar que no permita dejar el título vacío del card "Tareas Importantes"
      * Verificar que el sistema muestre un mensaje de error cuando se intenta dejar el título vacío (solo espacios en blanco)
      */
-    test.fail('TC061 - Verificar que no permita dejar el título vacío', 
+    test.fail('TC061 - Verificar que no permita dejar el título vacío del card "Tareas Importantes"', 
         {tag: ["@negative", "@regression"],}, async ({panelPage}) => {
         try {
-            Logger.initTest('TC061 - Verificar que no permita dejar el título vacío');
+            Logger.initTest('TC061 - Verificar que no permita dejar el título vacío del card "Tareas Importantes"');
             Logger.step('Intentando dejar título vacío');
             await panelPage.goTo();
             await panelPage.editCardTitle(CARD_TITLE, myWorkData.tasks.title.invalid);
@@ -120,12 +120,12 @@ test.describe('Suite: Validación de la tarjeta "Tareas Importantes"', () => {
     });
 
     /**
-     * TC062 Verificar que se pueda eliminar una tarjeta duplicada
+     * TC062 Verificar que se pueda eliminar una tarjeta duplicada "Tareas Importantes"
      * Verificar que el sistema permita eliminar correctamente una tarjeta que fue previamente duplicada
      */
-    test('TC062 - Verificar que se pueda eliminar una tarjeta duplicada', 
+    test('TC062 - Verificar que se pueda eliminar una tarjeta duplicada "Tareas Importantes"', 
         {tag: ["@positive", "@regression"],}, async ({panelPage}) => {
-        Logger.initTest('TC062 - Verificar que se pueda eliminar una tarjeta duplicada');
+        Logger.initTest('TC062 - Verificar que se pueda eliminar una tarjeta duplicada "Tareas Importantes"');
         await panelPage.goTo();
         const duplicatedTitle = `${CARD_TITLE} (1)`;
         Logger.step('Duplicando tarjeta');
@@ -149,9 +149,9 @@ test.describe('Suite: Validación de la tarjeta "En Curso"', () => {
      * TC063 Verificar que permita editar el título del card "En Curso"
      * Verificar que el sistema permita editar el título de la tarjeta "En Curso" con un título válido
      */
-    test('TC063 - Verificar que permita editar el título con un título válido', 
+    test('TC063 - Verificar que permita editar el título del card "En Curso"', 
         {tag: ["@smoke", "@positive", "@regression"],}, async ({panelPage}) => {
-        Logger.initTest('TC063 - Verificar que permita editar el título con un título válido');
+        Logger.initTest('TC063 - Verificar que permita editar el título del card "En Curso"');
         Logger.step('Editando título de la tarjeta a un valor válido');
         await panelPage.goTo();
         await panelPage.editCardTitle(CARD_TITLE, myWorkData.tasks.title.valid);
@@ -163,13 +163,13 @@ test.describe('Suite: Validación de la tarjeta "En Curso"', () => {
     });
     
     /**
-     * TC064 Verificar que permita editar el título con 255 caracteres
+     * TC064 Verificar que permita editar el título del card "En Curso" con 255 caracteres
      * Verificar que el sistema permita editar el título de la tarjeta con exactamente 255 caracteres (límite máximo)
      */
-    test('TC064 - Verificar que permita editar el título con 255 caracteres', 
+    test('TC064 - Verificar que permita editar el título del card "En Curso" con 255 caracteres', 
         {tag: ["@positive", "@regression"],}, async ({panelPage}) => {
         try {
-            Logger.initTest('TC064 - Verificar que permita editar el título con 255 caracteres');
+            Logger.initTest('TC064 - Verificar que permita editar el título del card "En Curso" con 255 caracteres');
             Logger.step('Editando título a 255 caracteres');
             await panelPage.goTo();
             await panelPage.editCardTitle(CARD_TITLE, myWorkData.tasks.title.validMax);
@@ -186,12 +186,12 @@ test.describe('Suite: Validación de la tarjeta "En Curso"', () => {
     });
 
     /**
-     * TC065 Verificar que se pueda duplicar la tarjeta
+     * TC065 Verificar que se pueda duplicar la tarjeta "En Curso"
      * Verificar que el sistema permita duplicar la tarjeta "En Curso" correctamente
      */
-    test('TC065 - Verificar que se pueda duplicar la tarjeta', 
+    test('TC065 - Verificar que se pueda duplicar la tarjeta "En Curso"', 
         {tag: ["@positive", "@regression"],}, async ({panelPage, page}) => {
-        Logger.initTest('TC065 - Verificar que se pueda duplicar la tarjeta');
+        Logger.initTest('TC065 - Verificar que se pueda duplicar la tarjeta "En Curso"');
         await panelPage.goTo();
         Logger.step('Duplicando tarjeta');
         const duplicatedTitle = `${CARD_TITLE} (1)`;
@@ -204,13 +204,13 @@ test.describe('Suite: Validación de la tarjeta "En Curso"', () => {
     });
     
     /**
-     * TC066 Verificar que no permita editar el título con más de 255 caracteres
+     * TC066 Verificar que no permita editar el título del card "En Curso" con más de 255 caracteres
      * Verificar que el sistema muestre un mensaje de error cuando se intenta editar el título con más de 255 caracteres
      */
-    test.fail('TC066 - Verificar que no permita editar el título con más de 255 caracteres', 
+    test.fail('TC066 - Verificar que no permita editar el título del card "En Curso" con más de 255 caracteres', 
         {tag: ["@negative", "@regression"],}, async ({panelPage}) => {
         try {
-            Logger.initTest('TC066 - Verificar que no permita editar el título con más de 255 caracteres');
+            Logger.initTest('TC066 - Verificar que no permita editar el título del card "En Curso" con más de 255 caracteres');
             Logger.step('Intentando editar título con más de 255 caracteres');
             await panelPage.goTo();
             await panelPage.editCardTitle(CARD_TITLE, myWorkData.tasks.title.invalidLong);
@@ -224,13 +224,13 @@ test.describe('Suite: Validación de la tarjeta "En Curso"', () => {
     });
 
     /**
-     * TC067 Verificar que no permita dejar el título vacío
+     * TC067 Verificar que no permita dejar el título vacío del card "En Curso"
      * Verificar que el sistema muestre un mensaje de error cuando se intenta dejar el título vacío (solo espacios en blanco)
      */
-    test.fail('TC067 - Verificar que no permita dejar el título vacío', 
+    test.fail('TC067 - Verificar que no permita dejar el título vacío del card "En Curso"', 
         {tag: ["@negative", "@regression"],}, async ({panelPage}) => {
         try {
-            Logger.initTest('TC067 - Verificar que no permita dejar el título vacío');
+            Logger.initTest('TC067 - Verificar que no permita dejar el título vacío del card "En Curso"');
             Logger.step('Intentando dejar título vacío');
             await panelPage.goTo();
             await panelPage.editCardTitle(CARD_TITLE, myWorkData.tasks.title.invalid);
@@ -244,12 +244,12 @@ test.describe('Suite: Validación de la tarjeta "En Curso"', () => {
     });
 
     /**
-     * TC068 Verificar que se pueda eliminar una tarjeta duplicada
+     * TC068 Verificar que se pueda eliminar una tarjeta duplicada "En Curso"
      * Verificar que el sistema permita eliminar correctamente una tarjeta que fue previamente duplicada
      */
-    test('TC068 - Verificar que se pueda eliminar una tarjeta duplicada', 
+    test('TC068 - Verificar que se pueda eliminar una tarjeta duplicada "En Curso"', 
         {tag: ["@positive", "@regression"],}, async ({panelPage}) => {
-        Logger.initTest('TC068 - Verificar que se pueda eliminar una tarjeta duplicada');
+        Logger.initTest('TC068 - Verificar que se pueda eliminar una tarjeta duplicada "En Curso"');
         await panelPage.goTo();
         const duplicatedTitle = `${CARD_TITLE} (1)`;
         Logger.step('Duplicando tarjeta');
@@ -273,9 +273,9 @@ test.describe('Suite: Validación de la tarjeta "Detenido"', () => {
      * TC069 Verificar que permita editar el título del card "Detenido"
      * Verificar que el sistema permita editar el título de la tarjeta "Detenido" con un título válido
      */
-    test('TC069 - Verificar que permita editar el título con un título válido', 
+    test('TC069 - Verificar que permita editar el título del card "Detenido"', 
         {tag: ["@smoke", "@positive", "@regression"],}, async ({panelPage}) => {
-        Logger.initTest('TC069 - Verificar que permita editar el título con un título válido');
+        Logger.initTest('TC069 - Verificar que permita editar el título del card "Detenido"');
         Logger.step('Editando título de la tarjeta a un valor válido');
         await panelPage.goTo();
         await panelPage.editCardTitle(CARD_TITLE, myWorkData.tasks.title.valid);
@@ -287,13 +287,13 @@ test.describe('Suite: Validación de la tarjeta "Detenido"', () => {
     });
     
     /**
-     * TC070 Verificar que permita editar el título con 255 caracteres
+     * TC070 Verificar que permita editar el título del card "Detenido" con 255 caracteres
      * Verificar que el sistema permita editar el título de la tarjeta con exactamente 255 caracteres (límite máximo)
      */
-    test('TC070 - Verificar que permita editar el título con 255 caracteres', 
+    test('TC070 - Verificar que permita editar el título del card "Detenido" con 255 caracteres', 
         {tag: ["@positive", "@regression"],}, async ({panelPage}) => {
         try {
-            Logger.initTest('TC070 - Verificar que permita editar el título con 255 caracteres');
+            Logger.initTest('TC070 - Verificar que permita editar el título del card "Detenido" con 255 caracteres');
             Logger.step('Editando título a 255 caracteres');
             await panelPage.goTo();
             await panelPage.editCardTitle(CARD_TITLE, myWorkData.tasks.title.validMax);
@@ -310,12 +310,12 @@ test.describe('Suite: Validación de la tarjeta "Detenido"', () => {
     });
 
     /**
-     * TC071 Verificar que se pueda duplicar la tarjeta
+     * TC071 Verificar que se pueda duplicar la tarjeta "Detenido"
      * Verificar que el sistema permita duplicar la tarjeta "Detenido" correctamente
      */
-    test('TC071 - Verificar que se pueda duplicar la tarjeta', 
+    test('TC071 - Verificar que se pueda duplicar la tarjeta "Detenido"', 
         {tag: ["@positive", "@regression"],}, async ({panelPage, page}) => {
-        Logger.initTest('TC071 - Verificar que se pueda duplicar la tarjeta');
+        Logger.initTest('TC071 - Verificar que se pueda duplicar la tarjeta "Detenido"');
         await panelPage.goTo();
         Logger.step('Duplicando tarjeta');
         const duplicatedTitle = `${CARD_TITLE} (1)`;
@@ -328,13 +328,13 @@ test.describe('Suite: Validación de la tarjeta "Detenido"', () => {
     });
     
     /**
-     * TC072 Verificar que no permita editar el título con más de 255 caracteres
+     * TC072 Verificar que no permita editar el título del card "Detenido" con más de 255 caracteres
      * Verificar que el sistema muestre un mensaje de error cuando se intenta editar el título con más de 255 caracteres
      */
-    test.fail('TC072 - Verificar que no permita editar el título con más de 255 caracteres', 
+    test.fail('TC072 - Verificar que no permita editar el título del card "Detenido" con más de 255 caracteres', 
         {tag: ["@negative", "@regression"],}, async ({panelPage}) => {
         try {
-            Logger.initTest('TC072 - Verificar que no permita editar el título con más de 255 caracteres');
+            Logger.initTest('TC072 - Verificar que no permita editar el título del card "Detenido" con más de 255 caracteres');
             Logger.step('Intentando editar título con más de 255 caracteres');
             await panelPage.goTo();
             await panelPage.editCardTitle(CARD_TITLE, myWorkData.tasks.title.invalidLong);
@@ -348,13 +348,13 @@ test.describe('Suite: Validación de la tarjeta "Detenido"', () => {
     });
 
     /**
-     * TC073 Verificar que no permita dejar el título vacío
+     * TC073 Verificar que no permita dejar el título vacío del card "Detenido"
      * Verificar que el sistema muestre un mensaje de error cuando se intenta dejar el título vacío (solo espacios en blanco)
      */
-    test.fail('TC073 - Verificar que no permita dejar el título vacío', 
+    test.fail('TC073 - Verificar que no permita dejar el título vacío del card "Detenido"', 
         {tag: ["@negative", "@regression"],}, async ({panelPage}) => {
         try {
-            Logger.initTest('TC073 - Verificar que no permita dejar el título vacío');
+            Logger.initTest('TC073 - Verificar que no permita dejar el título vacío del card "Detenido"');
             Logger.step('Intentando dejar título vacío');
             await panelPage.goTo();
             await panelPage.editCardTitle(CARD_TITLE, myWorkData.tasks.title.invalid);
@@ -368,12 +368,12 @@ test.describe('Suite: Validación de la tarjeta "Detenido"', () => {
     });
 
     /**
-     * TC074 Verificar que se pueda eliminar una tarjeta duplicada
+     * TC074 Verificar que se pueda eliminar una tarjeta duplicada "Detenido"
      * Verificar que el sistema permita eliminar correctamente una tarjeta que fue previamente duplicada
      */
-    test('TC074 - Verificar que se pueda eliminar una tarjeta duplicada', 
+    test('TC074 - Verificar que se pueda eliminar una tarjeta duplicada "Detenido"', 
         {tag: ["@positive", "@regression"],}, async ({panelPage}) => {
-        Logger.initTest('TC074 - Verificar que se pueda eliminar una tarjeta duplicada');
+        Logger.initTest('TC074 - Verificar que se pueda eliminar una tarjeta duplicada "Detenido"');
         await panelPage.goTo();
         const duplicatedTitle = `${CARD_TITLE} (1)`;
         Logger.step('Duplicando tarjeta');
@@ -397,9 +397,9 @@ test.describe('Suite: Validación de la tarjeta "Listo"', () => {
      * TC075 Verificar que permita editar el título del card "Listo"
      * Verificar que el sistema permita editar el título de la tarjeta "Listo" con un título válido
      */
-    test('TC075 - Verificar que permita editar el título con un título válido', 
+    test('TC075 - Verificar que permita editar el título del card "Listo"', 
         {tag: ["@smoke", "@positive", "@regression"],}, async ({panelPage}) => {
-        Logger.initTest('TC075 - Verificar que permita editar el título con un título válido');
+        Logger.initTest('TC075 - Verificar que permita editar el título del card "Listo"');
         Logger.step('Editando título de la tarjeta a un valor válido');
         await panelPage.goTo();
         await panelPage.editCardTitle(CARD_TITLE, myWorkData.tasks.title.valid);
@@ -411,13 +411,13 @@ test.describe('Suite: Validación de la tarjeta "Listo"', () => {
     });
     
     /**
-     * TC076 Verificar que permita editar el título con 255 caracteres
+     * TC076 Verificar que permita editar el título del card "Listo" con 255 caracteres
      * Verificar que el sistema permita editar el título de la tarjeta con exactamente 255 caracteres (límite máximo)
      */
-    test('TC076 - Verificar que permita editar el título con 255 caracteres', 
+    test('TC076 - Verificar que permita editar el título del card "Listo" con 255 caracteres', 
         {tag: ["@positive", "@regression"],}, async ({panelPage}) => {
         try {
-            Logger.initTest('TC076 - Verificar que permita editar el título con 255 caracteres');
+            Logger.initTest('TC076 - Verificar que permita editar el título del card "Listo" con 255 caracteres');
             Logger.step('Editando título a 255 caracteres');
             await panelPage.goTo();
             await panelPage.editCardTitle(CARD_TITLE, myWorkData.tasks.title.validMax);
@@ -434,12 +434,12 @@ test.describe('Suite: Validación de la tarjeta "Listo"', () => {
     });
 
     /**
-     * TC077 Verificar que se pueda duplicar la tarjeta
+     * TC077 Verificar que se pueda duplicar la tarjeta "Listo"
      * Verificar que el sistema permita duplicar la tarjeta "Listo" correctamente
      */
-    test('TC077 - Verificar que se pueda duplicar la tarjeta', 
+    test('TC077 - Verificar que se pueda duplicar la tarjeta "Listo"', 
         {tag: ["@positive", "@regression"],}, async ({panelPage, page}) => {
-        Logger.initTest('TC077 - Verificar que se pueda duplicar la tarjeta');
+        Logger.initTest('TC077 - Verificar que se pueda duplicar la tarjeta "Listo"');
         await panelPage.goTo();
         Logger.step('Duplicando tarjeta');
         const duplicatedTitle = `${CARD_TITLE} (1)`;
@@ -452,13 +452,13 @@ test.describe('Suite: Validación de la tarjeta "Listo"', () => {
     });
     
     /**
-     * TC078 Verificar que no permita editar el título con más de 255 caracteres
+     * TC078 Verificar que no permita editar el título del card "Listo" con más de 255 caracteres
      * Verificar que el sistema muestre un mensaje de error cuando se intenta editar el título con más de 255 caracteres
      */
-    test.fail('TC078 - Verificar que no permita editar el título con más de 255 caracteres', 
+    test.fail('TC078 - Verificar que no permita editar el título del card "Listo" con más de 255 caracteres', 
         {tag: ["@negative", "@regression"],}, async ({panelPage}) => {
         try {
-            Logger.initTest('TC078 - Verificar que no permita editar el título con más de 255 caracteres');
+            Logger.initTest('TC078 - Verificar que no permita editar el título del card "Listo" con más de 255 caracteres');
             Logger.step('Intentando editar título con más de 255 caracteres');
             await panelPage.goTo();
             await panelPage.editCardTitle(CARD_TITLE, myWorkData.tasks.title.invalidLong);
@@ -472,13 +472,13 @@ test.describe('Suite: Validación de la tarjeta "Listo"', () => {
     });
 
     /**
-     * TC079 Verificar que no permita dejar el título vacío
+     * TC079 Verificar que no permita dejar el título vacío del card "Listo"
      * Verificar que el sistema muestre un mensaje de error cuando se intenta dejar el título vacío (solo espacios en blanco)
      */
-    test.fail('TC079 - Verificar que no permita dejar el título vacío', 
+    test.fail('TC079 - Verificar que no permita dejar el título vacío del card "Listo"', 
         {tag: ["@negative", "@regression"],}, async ({panelPage}) => {
         try {
-            Logger.initTest('TC079 - Verificar que no permita dejar el título vacío');
+            Logger.initTest('TC079 - Verificar que no permita dejar el título vacío del card "Listo"');
             Logger.step('Intentando dejar título vacío');
             await panelPage.goTo();
             await panelPage.editCardTitle(CARD_TITLE, myWorkData.tasks.title.invalid);
@@ -492,12 +492,12 @@ test.describe('Suite: Validación de la tarjeta "Listo"', () => {
     });
 
     /**
-     * TC080 Verificar que se pueda eliminar una tarjeta duplicada
+     * TC080 Verificar que se pueda eliminar una tarjeta duplicada "Listo"
      * Verificar que el sistema permita eliminar correctamente una tarjeta que fue previamente duplicada
      */
-    test('TC080 - Verificar que se pueda eliminar una tarjeta duplicada', 
+    test('TC080 - Verificar que se pueda eliminar una tarjeta duplicada "Listo"', 
         {tag: ["@positive", "@regression"],}, async ({panelPage}) => {
-        Logger.initTest('TC080 - Verificar que se pueda eliminar una tarjeta duplicada');
+        Logger.initTest('TC080 - Verificar que se pueda eliminar una tarjeta duplicada "Listo"');
         await panelPage.goTo();
         const duplicatedTitle = `${CARD_TITLE} (1)`;
         Logger.step('Duplicando tarjeta');
@@ -509,5 +509,4 @@ test.describe('Suite: Validación de la tarjeta "Listo"', () => {
         Logger.termTest('TC080 - Tarjeta duplicada eliminada exitosamente');
     });
 
-    Logger.termTestSuite('Finalizando Suite: Validación de la tarjeta "Listo"');
 });

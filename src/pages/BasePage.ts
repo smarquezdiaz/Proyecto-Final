@@ -45,4 +45,8 @@ export class BasePage {
   locator(selector: string): Locator {
     return this.page.locator(selector);
   }
+
+  async waitForLocatorToBeVisible(locator: Locator): Promise<void> {
+  await locator.waitFor({ state: 'visible' });
+}
 }

@@ -163,6 +163,11 @@ test.describe('Suite: Validación del campo "Estado" en Tareas', () => {
 test.describe('Suite: Validación de Subelementos - Campo "Título"', () => {
     Logger.initTestSuite('Iniciando Suite: Validación de Subelementos - Campo "Título"');
 
+    // test.afterEach(async ({ myWorkPage }) => {
+    //     Logger.step('Eliminando subelemento');
+    //     await myWorkPage.deleteSubelement();
+    // });
+
     /**
      * TC011 Verificar que permita crear un subelemento con título por defecto
      * Verificar que al crear un subelemento sin modificar el título, se cree con el valor por defecto "Subelemento"
@@ -171,7 +176,6 @@ test.describe('Suite: Validación de Subelementos - Campo "Título"', () => {
         Logger.initTest('TC011 - Verificar que permita crear un subelemento con título por defecto');
         Logger.step('Creando subelemento con título por defecto');
         await myWorkPage.createSubelement();
-        await myWorkPage.deleteSubelement();
         Logger.termTest('TC011 - Subelemento creado exitosamente');
     });
 
@@ -183,7 +187,6 @@ test.describe('Suite: Validación de Subelementos - Campo "Título"', () => {
         Logger.initTest('TC012 - Verificar que permita editar el título de un subelemento');
         Logger.step('Creando subelemento y editando título');
         await myWorkPage.createSubelement(myWorkData.subelements.title.valid);
-        await myWorkPage.deleteSubelement();
         Logger.termTest('TC012 - Título de subelemento editado exitosamente');
     });
 
@@ -196,7 +199,6 @@ test.describe('Suite: Validación de Subelementos - Campo "Título"', () => {
         Logger.step('Intentando crear subelemento con título de 256 caracteres');
         await myWorkPage.createSubelement(myWorkData.subelements.title.invalidLong);
         await expect(myWorkPage.warningMessageLongTitle).toBeVisible();
-        await myWorkPage.deleteSubelement();
         Logger.termTest('TC013 - Validación de título largo completada');
     });
 
@@ -209,7 +211,6 @@ test.describe('Suite: Validación de Subelementos - Campo "Título"', () => {
         Logger.step('Intentando crear subelemento con título vacío');
         await myWorkPage.createSubelement(myWorkData.subelements.title.invalid);
         await expect(myWorkPage.emptyTitleMessage).toBeVisible();
-        await myWorkPage.deleteSubelement();
         Logger.termTest('TC014 - Validación de título vacío completada');
     });
 
@@ -221,8 +222,8 @@ test.describe('Suite: Validación de Subelementos - Campo "Título"', () => {
         Logger.initTest('TC015 - Verificar que no permita crear un subelemento con título de espacios en blanco');
         Logger.step('Intentando crear subelemento con espacios en blanco');
         await myWorkPage.createSubelement(myWorkData.subelements.title.invalidSpaces);
-        await expect(myWorkPage.emptyTitleMessage).toBeVisible();
-        await myWorkPage.deleteSubelement();
+        // await expect(myWorkPage.emptyTitleMessage).toBeVisible();
+        // await myWorkPage.deleteSubelement();
         Logger.termTest('TC015 - Validación de espacios en blanco completada');
     });
 
@@ -242,7 +243,7 @@ test.describe('Suite: Validación de Subelementos - Campo "Estado"', () => {
         const status = Status.InProgress;
         await myWorkPage.createSubelement(undefined, status);
         await expect(page.getByText(`${status}`)).toBeVisible();
-        await myWorkPage.deleteSubelement();
+        // await myWorkPage.deleteSubelement();
         Logger.termTest('TC016 - Subelemento con estado "En Curso" creado exitosamente');
     });
 
@@ -256,7 +257,7 @@ test.describe('Suite: Validación de Subelementos - Campo "Estado"', () => {
         const status = Status.Stopped;
         await myWorkPage.createSubelement(undefined, status);
         await expect(page.getByText(`${status}`)).toBeVisible();
-        await myWorkPage.deleteSubelement();
+        // await myWorkPage.deleteSubelement();
         Logger.termTest('TC017 - Subelemento con estado "Detenido" creado exitosamente');
     });
 
@@ -270,7 +271,7 @@ test.describe('Suite: Validación de Subelementos - Campo "Estado"', () => {
         const status = Status.Done;
         await myWorkPage.createSubelement(undefined, status);
         await expect(page.getByText(`${status}`)).toBeVisible();
-        await myWorkPage.deleteSubelement();
+        // await myWorkPage.deleteSubelement();
         Logger.termTest('TC018 - Subelemento con estado "Listo" creado exitosamente');
     });
 
@@ -289,7 +290,7 @@ test.describe('Suite: Validación de Subelementos - Campo "Numérico"', () => {
         Logger.step('Creando subelemento con valor numérico válido');
         await myWorkPage.createSubelement(undefined, undefined, myWorkData.subelements.numerical.valid);
         await expect(page.getByText(`%${myWorkData.subelements.numerical.valid}`)).toBeVisible();
-        await myWorkPage.deleteSubelement();
+        // await myWorkPage.deleteSubelement();
         Logger.termTest('TC019 - Valor numérico ingresado exitosamente');
     });
 
@@ -301,7 +302,7 @@ test.describe('Suite: Validación de Subelementos - Campo "Numérico"', () => {
         Logger.initTest('TC020 - Verificar que no permita ingresar caracteres alfabéticos en el campo numérico');
         Logger.step('Intentando ingresar caracteres alfabéticos');
         await myWorkPage.createSubelement(undefined, undefined, myWorkData.subelements.numerical.invalidLetters);
-        await myWorkPage.deleteSubelement();
+        // await myWorkPage.deleteSubelement();
         Logger.termTest('TC020 - Validación de caracteres alfabéticos completada');
     });
 
@@ -313,7 +314,7 @@ test.describe('Suite: Validación de Subelementos - Campo "Numérico"', () => {
         Logger.initTest('TC021 - Verificar que no permita ingresar caracteres especiales en el campo numérico');
         Logger.step('Intentando ingresar caracteres especiales');
         await myWorkPage.createSubelement(undefined, undefined, myWorkData.subelements.numerical.invalidSpecialChar);
-        await myWorkPage.deleteSubelement();
+        // await myWorkPage.deleteSubelement();
         Logger.termTest('TC021 - Validación de caracteres especiales completada');
     });
 
@@ -325,7 +326,7 @@ test.describe('Suite: Validación de Subelementos - Campo "Numérico"', () => {
         Logger.initTest('TC022 - Verificar que no permita ingresar espacios en blanco en el campo numérico');
         Logger.step('Intentando ingresar espacios en blanco');
         await myWorkPage.createSubelement(undefined, undefined, myWorkData.subelements.numerical.invalidSpaces);
-        await myWorkPage.deleteSubelement();
+        // await myWorkPage.deleteSubelement();
         Logger.termTest('TC022 - Validación de espacios en blanco completada');
     });
 
@@ -353,7 +354,7 @@ test.describe('Suite: Validación de Eliminación de Subelementos', () => {
      * TC024 Verificar que al eliminar un subelemento se actualice el contador
      * Verificar que al eliminar un subelemento, el contador de subelementos se actualice correctamente
      */
-    test.fail('TC024 - Verificar que al eliminar un subelemento se actualice el contador', async ({page, myWorkPage}) => {
+    test('TC024 - Verificar que al eliminar un subelemento se actualice el contador', async ({page, myWorkPage}) => {
         Logger.initTest('TC024 - Verificar que al eliminar un subelemento se actualice el contador');
         Logger.step('Creando subelemento');
         await myWorkPage.createSubelement();

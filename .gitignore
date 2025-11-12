@@ -5,3 +5,5 @@ reports
 .DS_Store
 allure-results
 dist
+reports/logFiles
+.env

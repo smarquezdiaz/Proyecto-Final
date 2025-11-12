@@ -4,11 +4,14 @@ import { ProfilePage } from "../pages/ProfilePage";
 import { MyWorkPage } from '../pages/MyWorkPage';
 import { PanelPage } from '../pages/PanelPage';
 
+const PARENT_TASK_TITLE = 'Tarea con subelementos';
+
 export const test = base.extend<{
   profilePage: ProfilePage;
   loginPage: LoginPage;
   myWorkPage: MyWorkPage;
   panelPage: PanelPage;
+  parentTaskCleanup: string;
 }>({
   loginPage: async ({ page }, use) => {
     await use(new LoginPage(page));

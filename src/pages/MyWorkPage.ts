@@ -1,4 +1,4 @@
-import { Locator, Page } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 import { BasePage } from "./BasePage";
 import { Config } from '../utils/config';
 
@@ -30,6 +30,8 @@ export class MyWorkPage extends BasePage {
     dateInput: Locator;
     errorTitleMessage: Locator;
     subelementsContainer: Locator;
+    editSubelementDialog: Locator;
+    closeBtn: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -45,9 +47,6 @@ export class MyWorkPage extends BasePage {
         this.addSubelementBtn = this.getByRole('menuitem', { name: 'Agregar subelemento' });
         this.taskContainer = this.locator('.nameCellContentContainer--A5D3x').filter({ hasText: 'Tarea con subelementos' });
         this.listSubelements = this.taskContainer.getByTestId('clickable');
-        this.lastSubelement = this.locator('.pulse-item').last();
-        this.titleFieldSubelement = this.locator('.ds-editable-component.pulse-attribute-value-text > .ds-text-component');
-        this.titleInputSubelement = this.locator('input[value="Subelemento"]');
         this.warningMessageLongTitle = this.getByText('El título del elemento es muy extenso (máximo 255 caracteres)');
         this.counter = this.taskContainer.locator('.monday-subitems-counter-component__subitems-count');
         this.emptyTitleMessage = this.getByText('El nombre no puede estar vacío');
@@ -59,7 +58,12 @@ export class MyWorkPage extends BasePage {
         this.numericalContainer = this.locator('.cell-wrapper.can-edit:has(.col-identifier-numeric_mkwsj9fj)');
         this.numericalInput = this.locator('input[inputmode="decimal"]');
         this.errorTitleMessage = this.getByText('No pudimos agregar el elemento, el texto no puede incluir el signo “<”');
-        this.subelementsContainer = this.getByText('Subelementos de Tarea con subelementos');
+        this.subelementsContainer = this.locator('div[data-testid="dialog-content-container"]'); 
+        this.editSubelementDialog = this.locator('#pulse-card-dialog-component');
+        this.lastSubelement = this.subelementsContainer.locator('.pulse-item').last();
+        this.titleFieldSubelement = this.editSubelementDialog.locator('.ds-editable-component.pulse-attribute-value-text > .ds-text-component');
+        this.titleInputSubelement = this.locator('.ds-editable-component.pulse-attribute-value-text input');
+        this.closeBtn = this.getByRole('button', { name: 'Close' });
     }
 
     async createElement(title?: string, date?: string, status?: string) {
@@ -88,46 +92,71 @@ export class MyWorkPage extends BasePage {
 
     async createSubelement(title?: string, status?: string, numerical?: any) {
         await this.goto(Config.WORK_URL);
-        await this.taskOptionBtn.waitFor({ state: 'visible', timeout: 10000 });
-        await this.taskOptionBtn.click();
-        await this.isVisible(this.addSubelementBtn);
+        await this.taskOptionBtn.waitFor({ state: 'attached' });
+        await this.taskOptionBtn.click({ force: false });
+        
+        await this.waitForLocatorToBeVisible(this.addSubelementBtn);
         await this.addSubelementBtn.click();
-        await this.isVisible(this.counter);
-        await this.isVisible(this.listSubelements);
-        await this.click(this.listSubelements);
-        await this.isVisible(this.lastSubelement);
-        await this.isVisible(this.subelementsContainer);
+
+        await this.waitForLocatorToBeVisible(this.counter);
+        await this.waitForLocatorToBeVisible(this.listSubelements);
+        await this.listSubelements.click();
+        
+        await this.waitForLocatorToBeVisible(this.subelementsContainer);
+        await this.waitForLocatorToBeVisible(this.lastSubelement);
         await this.lastSubelement.click();
-        if(title) {
-            await this.click(this.titleFieldSubelement);
-            await this.click(this.titleInputSubelement);
-            await this.fill(this.titleInputSubelement, title);
+        
+        await this.waitForLocatorToBeVisible(this.editSubelementDialog);
+        
+        if(title != undefined) {
+            await this.titleInputSubelement.fill(title);
             await this.titleInputSubelement.press('Enter');
         }
+        
         if(status) {
-            await this.click(this.statusContainer);
+            await this.waitForLocatorToBeVisible(this.statusContainer);
+            await this.statusContainer.click();
             const statusInput = this.locator(`.ds-text-component:has-text("${status}")`);
-            await this.click(statusInput);
+            await this.waitForLocatorToBeVisible(statusInput);
+            await statusInput.click();
         }
+        
         if(numerical) {
-            await this.click(this.numericalContainer);
-            await this.click(this.numericalInput);
+            await this.waitForLocatorToBeVisible(this.numericalContainer);
+            await this.numericalContainer.click();
+            await this.waitForLocatorToBeVisible(this.numericalInput);
+            await this.numericalInput.clear();
             await this.numericalInput.fill(numerical);
             await this.numericalInput.press('Enter');
         }
     }
 
     async deleteSubelement() {
-        await this.click(this.editSubelementOptions);
-        await this.click(this.deleteBtn);
+        await this.waitForLocatorToBeVisible(this.editSubelementDialog);
+        await this.waitForLocatorToBeVisible(this.editSubelementOptions);
+        await this.editSubelementOptions.click();
+        await this.page.waitForTimeout(5000);
+        await this.waitForLocatorToBeVisible(this.deleteBtn);
+        await this.deleteBtn.hover();
+        await this.page.waitForTimeout(5000);
+        await this.deleteBtn.click({force: true});
+        await this.page.waitForTimeout(5000);
+        await this.waitForLocatorToBeVisible(this.succeddedMessage);
     }
 
     async deleteElement(title: string) {
+        const taskText = this.getByText(title);
+        await this.waitForLocatorToBeVisible(taskText);
         const itemMenu = this.getByLabel(`Más opciones para ${title}`);
+        await this.waitForLocatorToBeVisible(itemMenu);
         await itemMenu.click();
         const deleteBtn = this.getByRole('menuitem', { name: 'Eliminar' });
+        await this.waitForLocatorToBeVisible(deleteBtn);
         await deleteBtn.click();
-        await this.getByRole('button', { name: 'Eliminar' }).click();
-        await this.isVisible(this.getByText('Eliminamos 1 elemento correctamente'));
+        const confirmBtn = this.getByRole('button', { name: 'Eliminar' });
+        await this.waitForLocatorToBeVisible(confirmBtn);
+        await confirmBtn.click();
+        const successMsg = this.getByText('Eliminamos 1 elemento correctamente');
+        await this.waitForLocatorToBeVisible(successMsg);
     }
 }
