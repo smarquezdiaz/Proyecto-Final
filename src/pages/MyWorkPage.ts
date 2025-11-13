@@ -31,11 +31,11 @@ export class MyWorkPage extends BasePage {
     errorTitleMessage: Locator;
     subelementsContainer: Locator;
     editSubelementDialog: Locator;
-    closeBtn: Locator;
+    noDateSection: Locator;
 
     constructor(page: Page) {
         super(page);
-        this.tableContainer = this.locator('.table-component crossBoardOverviewSectionView_3');
+        this.tableContainer = this.locator('div.table-component');
         this.addElementBtn = this.getByRole('button', {name: 'Elemento nuevo'});
         this.titleField = this.locator('input[value="Agregar Tarea"]');
         this.createBtn = this.getByRole('button', {name: 'Crear Tarea'});
@@ -63,12 +63,13 @@ export class MyWorkPage extends BasePage {
         this.lastSubelement = this.subelementsContainer.locator('.pulse-item').last();
         this.titleFieldSubelement = this.editSubelementDialog.locator('.ds-editable-component.pulse-attribute-value-text > .ds-text-component');
         this.titleInputSubelement = this.locator('.ds-editable-component.pulse-attribute-value-text input');
-        this.closeBtn = this.getByRole('button', { name: 'Close' });
+        this.noDateSection = this.getByRole('heading', { name: 'Sin fecha', level: 3 });
     }
 
     async createElement(title?: string, date?: string, status?: string) {
         await this.goto(Config.WORK_URL);
         await this.isVisible(this.tableContainer);
+        await this.waitForLocatorToBeVisible(this.noDateSection);
         await this.click(this.addElementBtn);
         if (title) {
             await this.fill(this.titleField, title);
@@ -85,6 +86,7 @@ export class MyWorkPage extends BasePage {
             await this.click(statusOptionLocator);
         }
         await this.click(this.createBtn);
+        await this.waitForLocatorToBeVisible(this.noDateSection);
         if (title && title != " ") {
             await this.isVisible(this.getByText(title));
         }
@@ -135,10 +137,8 @@ export class MyWorkPage extends BasePage {
         await this.waitForLocatorToBeVisible(this.editSubelementDialog);
         await this.waitForLocatorToBeVisible(this.editSubelementOptions);
         await this.editSubelementOptions.click();
-        await this.page.waitForTimeout(5000);
         await this.waitForLocatorToBeVisible(this.deleteBtn);
         await this.deleteBtn.hover();
-        await this.page.waitForTimeout(5000);
         await this.deleteBtn.click({force: true});
         await this.page.waitForTimeout(5000);
         await this.waitForLocatorToBeVisible(this.succeddedMessage);

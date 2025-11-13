@@ -11,7 +11,10 @@ export class BasePage {
   }
 
   async goto(url: string): Promise<void> {
-    await this.page.goto(url);
+    await this.page.goto(url, { 
+      waitUntil: 'networkidle',
+    });
+    await this.page.waitForLoadState('domcontentloaded');
   }
 
   async click(locator: Locator): Promise<void> {

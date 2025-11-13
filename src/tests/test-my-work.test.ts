@@ -33,7 +33,7 @@ test.describe('Suite: Validación del campo "Título" en Tareas', () => {
      * Verificar que permita crear una tarea cuando el título es válido (no vacío, menor a 255 caracteres)
      */
     test('TC002 - Verificar que permita crear una tarea con un título válido', 
-        {tag: ["@smoke", "@positive", "@regression"],}, async ({page, myWorkPage}) => {
+        {tag: ["@smoke", "@positive", "@regression"],}, async ({myWorkPage}) => {
         Logger.initTest('TC002 - Verificar que permita crear una tarea con un título válido');
         Logger.step('Creando tarea con título válido');
         await myWorkPage.createElement(myWorkData.tasks.title.valid);
