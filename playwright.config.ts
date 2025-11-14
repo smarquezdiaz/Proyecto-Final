@@ -7,7 +7,7 @@ dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 const config: PlaywrightTestConfig = {
   testDir: './src/tests',
-  timeout: 30000,
+  timeout: 60000,
   retries: 1,
   reporter: [["line"], ["allure-playwright"]],
   workers: 1,

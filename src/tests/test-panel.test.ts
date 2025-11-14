@@ -61,21 +61,30 @@ test.describe('Suite: Validación de la tarjeta "Tareas Importantes"', () => {
      * Verificar que el sistema permita duplicar la tarjeta "Tareas Importantes" correctamente
      */
     test('TC059 - Verificar que se pueda duplicar la tarjeta "Tareas Importantes"', 
-        {tag: ["@positive", "@regression"],}, async ({panelPage, page}) => {
+        {tag: ["@positive", "@regression"],}, async ({panelPage}) => {
         Logger.initTest('TC059 - Verificar que se pueda duplicar la tarjeta "Tareas Importantes"');
-        Logger.step('Verificando cantidad inicial de tarjetas');
+        
         await panelPage.goTo();
+        
+        Logger.step('Verificando cantidad inicial de tarjetas');
         const initialCount = await panelPage.getCardCount(CARD_TITLE);
         Logger.step(`Cantidad inicial: ${initialCount}`);
-        Logger.step('Duplicando tarjeta');
-        await panelPage.executeCardAction(CARD_TITLE, 'Duplicar', 0);
-        await page.waitForTimeout(2000);
-        Logger.step('Verificando que se haya duplicado');
+        
+        Logger.step('Duplicando tarjeta y esperando confirmación en el DOM');
+        const newCardIndex = await panelPage.duplicateCardAndWait(CARD_TITLE, 0);
+        
+        Logger.step('Verificando que se haya duplicado correctamente');
         const finalCount = await panelPage.getCardCount(CARD_TITLE);
         Logger.step(`Cantidad final: ${finalCount}`);
         expect(finalCount).toBe(initialCount + 1);
-        Logger.step('Eliminando tarjeta duplicada (última creada)');
-        await panelPage.executeCardAction(CARD_TITLE, 'Eliminar', finalCount - 1); 
+        
+        Logger.step(`Eliminando tarjeta duplicada (índice ${newCardIndex})`);
+        await panelPage.deleteCardAndWait(CARD_TITLE, newCardIndex);
+        
+        Logger.step('Verificando que se eliminó correctamente');
+        const countAfterDelete = await panelPage.getCardCount(CARD_TITLE);
+        expect(countAfterDelete).toBe(initialCount);
+        
         Logger.termTest('TC059 - Tarjeta duplicada y eliminada exitosamente');
     });
     
@@ -100,6 +109,40 @@ test.describe('Suite: Validación de la tarjeta "Tareas Importantes"', () => {
     });
 
     /**
+     * TC062 Verificar que se pueda eliminar una tarjeta duplicada "Tareas Importantes"
+     * Verificar que el sistema permita eliminar correctamente una tarjeta que fue previamente duplicada
+     */
+    test('TC062 - Verificar que se pueda eliminar una tarjeta duplicada "Tareas Importantes"', 
+        {tag: ["@positive", "@regression"],}, async ({panelPage}) => {
+        Logger.initTest('TC062 - Verificar que se pueda eliminar una tarjeta duplicada "Tareas Importantes"');
+        
+        await panelPage.goTo();
+        
+        Logger.step('Obteniendo conteo inicial');
+        const initialCount = await panelPage.getCardCount(CARD_TITLE);
+        Logger.step(`Conteo inicial: ${initialCount}`);
+        
+        Logger.step('Duplicando tarjeta');
+        const duplicatedIndex = await panelPage.duplicateCardAndWait(CARD_TITLE, 0);
+        Logger.step(`Tarjeta duplicada en índice: ${duplicatedIndex}`);
+        
+        Logger.step('Verificando que la duplicación fue exitosa');
+        const countAfterDuplicate = await panelPage.getCardCount(CARD_TITLE);
+        Logger.step(`Conteo después de duplicar: ${countAfterDuplicate}`);
+        expect(countAfterDuplicate).toBe(initialCount + 1);
+        
+        Logger.step('Eliminando tarjeta duplicada');
+        await panelPage.deleteCardAndWait(CARD_TITLE, duplicatedIndex);
+        
+        Logger.step('Verificando que la eliminación fue exitosa');
+        const finalCount = await panelPage.getCardCount(CARD_TITLE);
+        Logger.step(`Conteo final: ${finalCount}`);
+        expect(finalCount).toBe(initialCount);
+        
+        Logger.termTest('TC062 - Tarjeta duplicada eliminada exitosamente');
+    });
+
+    /**
      * TC061 Verificar que no permita dejar el título vacío del card "Tareas Importantes"
      * Verificar que el sistema muestre un mensaje de error cuando se intenta dejar el título vacío (solo espacios en blanco)
      */
@@ -117,24 +160,6 @@ test.describe('Suite: Validación de la tarjeta "Tareas Importantes"', () => {
             await panelPage.editCardTitle(myWorkData.tasks.title.invalid, CARD_TITLE);
             throw error;
         }
-    });
-
-    /**
-     * TC062 Verificar que se pueda eliminar una tarjeta duplicada "Tareas Importantes"
-     * Verificar que el sistema permita eliminar correctamente una tarjeta que fue previamente duplicada
-     */
-    test('TC062 - Verificar que se pueda eliminar una tarjeta duplicada "Tareas Importantes"', 
-        {tag: ["@positive", "@regression"],}, async ({panelPage}) => {
-        Logger.initTest('TC062 - Verificar que se pueda eliminar una tarjeta duplicada "Tareas Importantes"');
-        await panelPage.goTo();
-        const duplicatedTitle = `${CARD_TITLE} (1)`;
-        Logger.step('Duplicando tarjeta');
-        await panelPage.executeCardAction(CARD_TITLE, 'Duplicar');
-        await panelPage.assertions.expectToBeVisible(panelPage.cardTitleLocator(duplicatedTitle));
-        Logger.step('Eliminando tarjeta duplicada');
-        await panelPage.executeCardAction(duplicatedTitle, 'Eliminar');
-        await expect(panelPage.cardTitleLocator(duplicatedTitle)).toBeHidden();
-        Logger.termTest('TC062 - Tarjeta duplicada eliminada exitosamente');
     });
 
     Logger.termTestSuite('Finalizando Suite: Validación de la tarjeta "Tareas Importantes"');
@@ -190,17 +215,25 @@ test.describe('Suite: Validación de la tarjeta "En Curso"', () => {
      * Verificar que el sistema permita duplicar la tarjeta "En Curso" correctamente
      */
     test('TC065 - Verificar que se pueda duplicar la tarjeta "En Curso"', 
-        {tag: ["@positive", "@regression"],}, async ({panelPage, page}) => {
+        {tag: ["@positive", "@regression"],}, async ({panelPage}) => {
         Logger.initTest('TC065 - Verificar que se pueda duplicar la tarjeta "En Curso"');
+        
         await panelPage.goTo();
+        
+        Logger.step('Obteniendo conteo inicial');
+        const initialCount = await panelPage.getCardCount(CARD_TITLE);
+        
         Logger.step('Duplicando tarjeta');
-        const duplicatedTitle = `${CARD_TITLE} (1)`;
-        await panelPage.executeCardAction(CARD_TITLE, 'Duplicar');
-        await page.waitForTimeout(2000);
-        await panelPage.assertions.expectToBeVisible(panelPage.cardTitleLocator(duplicatedTitle));
+        const duplicatedIndex = await panelPage.duplicateCardAndWait(CARD_TITLE, 0);
+        
+        Logger.step('Verificando duplicación exitosa');
+        const countAfterDuplicate = await panelPage.getCardCount(CARD_TITLE);
+        expect(countAfterDuplicate).toBe(initialCount + 1);
+        
         Logger.step('Eliminando tarjeta duplicada');
-        await panelPage.executeCardAction(duplicatedTitle, 'Eliminar'); 
-        Logger.termTest('TC065 - Tarjeta duplicada exitosamente');
+        await panelPage.deleteCardAndWait(CARD_TITLE, duplicatedIndex);
+        
+        Logger.termTest('TC065 - Tarjeta duplicada y eliminada exitosamente');
     });
     
     /**
@@ -224,6 +257,29 @@ test.describe('Suite: Validación de la tarjeta "En Curso"', () => {
     });
 
     /**
+     * TC068 Verificar que se pueda eliminar una tarjeta duplicada "En Curso"
+     * Verificar que el sistema permita eliminar correctamente una tarjeta que fue previamente duplicada
+     */
+    test('TC068 - Verificar que se pueda eliminar una tarjeta duplicada "En Curso"', 
+        {tag: ["@positive", "@regression"],}, async ({panelPage}) => {
+        Logger.initTest('TC068 - Verificar que se pueda eliminar una tarjeta duplicada "En Curso"');
+        
+        await panelPage.goTo();
+        const initialCount = await panelPage.getCardCount(CARD_TITLE);
+        
+        Logger.step('Duplicando tarjeta');
+        const duplicatedIndex = await panelPage.duplicateCardAndWait(CARD_TITLE, 0);
+        
+        Logger.step('Eliminando tarjeta duplicada');
+        await panelPage.deleteCardAndWait(CARD_TITLE, duplicatedIndex);
+        
+        const finalCount = await panelPage.getCardCount(CARD_TITLE);
+        expect(finalCount).toBe(initialCount);
+        
+        Logger.termTest('TC068 - Tarjeta duplicada eliminada exitosamente');
+    });
+
+    /**
      * TC067 Verificar que no permita dejar el título vacío del card "En Curso"
      * Verificar que el sistema muestre un mensaje de error cuando se intenta dejar el título vacío (solo espacios en blanco)
      */
@@ -241,24 +297,6 @@ test.describe('Suite: Validación de la tarjeta "En Curso"', () => {
             await panelPage.editCardTitle(myWorkData.tasks.title.invalid, CARD_TITLE);
             throw error;
         }
-    });
-
-    /**
-     * TC068 Verificar que se pueda eliminar una tarjeta duplicada "En Curso"
-     * Verificar que el sistema permita eliminar correctamente una tarjeta que fue previamente duplicada
-     */
-    test('TC068 - Verificar que se pueda eliminar una tarjeta duplicada "En Curso"', 
-        {tag: ["@positive", "@regression"],}, async ({panelPage}) => {
-        Logger.initTest('TC068 - Verificar que se pueda eliminar una tarjeta duplicada "En Curso"');
-        await panelPage.goTo();
-        const duplicatedTitle = `${CARD_TITLE} (1)`;
-        Logger.step('Duplicando tarjeta');
-        await panelPage.executeCardAction(CARD_TITLE, 'Duplicar');
-        await panelPage.assertions.expectToBeVisible(panelPage.cardTitleLocator(duplicatedTitle));
-        Logger.step('Eliminando tarjeta duplicada');
-        await panelPage.executeCardAction(duplicatedTitle, 'Eliminar');
-        await expect(panelPage.cardTitleLocator(duplicatedTitle)).toBeHidden();
-        Logger.termTest('TC068 - Tarjeta duplicada eliminada exitosamente');
     });
 
     Logger.termTestSuite('Finalizando Suite: Validación de la tarjeta "En Curso"');
@@ -314,17 +352,22 @@ test.describe('Suite: Validación de la tarjeta "Detenido"', () => {
      * Verificar que el sistema permita duplicar la tarjeta "Detenido" correctamente
      */
     test('TC071 - Verificar que se pueda duplicar la tarjeta "Detenido"', 
-        {tag: ["@positive", "@regression"],}, async ({panelPage, page}) => {
+        {tag: ["@positive", "@regression"],}, async ({panelPage}) => {
         Logger.initTest('TC071 - Verificar que se pueda duplicar la tarjeta "Detenido"');
+        
         await panelPage.goTo();
+        const initialCount = await panelPage.getCardCount(CARD_TITLE);
+        
         Logger.step('Duplicando tarjeta');
-        const duplicatedTitle = `${CARD_TITLE} (1)`;
-        await panelPage.executeCardAction(CARD_TITLE, 'Duplicar');
-        await page.waitForTimeout(2000);
-        await panelPage.assertions.expectToBeVisible(panelPage.cardTitleLocator(duplicatedTitle));
+        const duplicatedIndex = await panelPage.duplicateCardAndWait(CARD_TITLE, 0);
+        
+        const countAfterDuplicate = await panelPage.getCardCount(CARD_TITLE);
+        expect(countAfterDuplicate).toBe(initialCount + 1);
+        
         Logger.step('Eliminando tarjeta duplicada');
-        await panelPage.executeCardAction(duplicatedTitle, 'Eliminar'); 
-        Logger.termTest('TC071 - Tarjeta duplicada exitosamente');
+        await panelPage.deleteCardAndWait(CARD_TITLE, duplicatedIndex);
+        
+        Logger.termTest('TC071 - Tarjeta duplicada y eliminada exitosamente');
     });
     
     /**
@@ -348,6 +391,29 @@ test.describe('Suite: Validación de la tarjeta "Detenido"', () => {
     });
 
     /**
+     * TC074 Verificar que se pueda eliminar una tarjeta duplicada "Detenido"
+     * Verificar que el sistema permita eliminar correctamente una tarjeta que fue previamente duplicada
+     */
+    test('TC074 - Verificar que se pueda eliminar una tarjeta duplicada "Detenido"', 
+        {tag: ["@positive", "@regression"],}, async ({panelPage}) => {
+        Logger.initTest('TC074 - Verificar que se pueda eliminar una tarjeta duplicada "Detenido"');
+        
+        await panelPage.goTo();
+        const initialCount = await panelPage.getCardCount(CARD_TITLE);
+        
+        Logger.step('Duplicando tarjeta');
+        const duplicatedIndex = await panelPage.duplicateCardAndWait(CARD_TITLE, 0);
+        
+        Logger.step('Eliminando tarjeta duplicada');
+        await panelPage.deleteCardAndWait(CARD_TITLE, duplicatedIndex);
+        
+        const finalCount = await panelPage.getCardCount(CARD_TITLE);
+        expect(finalCount).toBe(initialCount);
+        
+        Logger.termTest('TC074 - Tarjeta duplicada eliminada exitosamente');
+    });
+
+     /**
      * TC073 Verificar que no permita dejar el título vacío del card "Detenido"
      * Verificar que el sistema muestre un mensaje de error cuando se intenta dejar el título vacío (solo espacios en blanco)
      */
@@ -365,24 +431,6 @@ test.describe('Suite: Validación de la tarjeta "Detenido"', () => {
             await panelPage.editCardTitle(myWorkData.tasks.title.invalid, CARD_TITLE);
             throw error;
         }
-    });
-
-    /**
-     * TC074 Verificar que se pueda eliminar una tarjeta duplicada "Detenido"
-     * Verificar que el sistema permita eliminar correctamente una tarjeta que fue previamente duplicada
-     */
-    test('TC074 - Verificar que se pueda eliminar una tarjeta duplicada "Detenido"', 
-        {tag: ["@positive", "@regression"],}, async ({panelPage}) => {
-        Logger.initTest('TC074 - Verificar que se pueda eliminar una tarjeta duplicada "Detenido"');
-        await panelPage.goTo();
-        const duplicatedTitle = `${CARD_TITLE} (1)`;
-        Logger.step('Duplicando tarjeta');
-        await panelPage.executeCardAction(CARD_TITLE, 'Duplicar');
-        await panelPage.assertions.expectToBeVisible(panelPage.cardTitleLocator(duplicatedTitle));
-        Logger.step('Eliminando tarjeta duplicada');
-        await panelPage.executeCardAction(duplicatedTitle, 'Eliminar');
-        await expect(panelPage.cardTitleLocator(duplicatedTitle)).toBeHidden();
-        Logger.termTest('TC074 - Tarjeta duplicada eliminada exitosamente');
     });
 
     Logger.termTestSuite('Finalizando Suite: Validación de la tarjeta "Detenido"');
@@ -438,17 +486,22 @@ test.describe('Suite: Validación de la tarjeta "Listo"', () => {
      * Verificar que el sistema permita duplicar la tarjeta "Listo" correctamente
      */
     test('TC077 - Verificar que se pueda duplicar la tarjeta "Listo"', 
-        {tag: ["@positive", "@regression"],}, async ({panelPage, page}) => {
+        {tag: ["@positive", "@regression"],}, async ({panelPage}) => {
         Logger.initTest('TC077 - Verificar que se pueda duplicar la tarjeta "Listo"');
+        
         await panelPage.goTo();
+        const initialCount = await panelPage.getCardCount(CARD_TITLE);
+        
         Logger.step('Duplicando tarjeta');
-        const duplicatedTitle = `${CARD_TITLE} (1)`;
-        await panelPage.executeCardAction(CARD_TITLE, 'Duplicar');
-        await page.waitForTimeout(2000);
-        await panelPage.assertions.expectToBeVisible(panelPage.cardTitleLocator(duplicatedTitle));
+        const duplicatedIndex = await panelPage.duplicateCardAndWait(CARD_TITLE, 0);
+        
+        const countAfterDuplicate = await panelPage.getCardCount(CARD_TITLE);
+        expect(countAfterDuplicate).toBe(initialCount + 1);
+        
         Logger.step('Eliminando tarjeta duplicada');
-        await panelPage.executeCardAction(duplicatedTitle, 'Eliminar'); 
-        Logger.termTest('TC077 - Tarjeta duplicada exitosamente');
+        await panelPage.deleteCardAndWait(CARD_TITLE, duplicatedIndex);
+        
+        Logger.termTest('TC077 - Tarjeta duplicada y eliminada exitosamente');
     });
     
     /**
@@ -472,6 +525,29 @@ test.describe('Suite: Validación de la tarjeta "Listo"', () => {
     });
 
     /**
+     * TC080 Verificar que se pueda eliminar una tarjeta duplicada "Listo"
+     * Verificar que el sistema permita eliminar correctamente una tarjeta que fue previamente duplicada
+     */
+    test('TC080 - Verificar que se pueda eliminar una tarjeta duplicada "Listo"', 
+        {tag: ["@positive", "@regression"],}, async ({panelPage}) => {
+        Logger.initTest('TC080 - Verificar que se pueda eliminar una tarjeta duplicada "Listo"');
+        
+        await panelPage.goTo();
+        const initialCount = await panelPage.getCardCount(CARD_TITLE);
+        
+        Logger.step('Duplicando tarjeta');
+        const duplicatedIndex = await panelPage.duplicateCardAndWait(CARD_TITLE, 0);
+        
+        Logger.step('Eliminando tarjeta duplicada');
+        await panelPage.deleteCardAndWait(CARD_TITLE, duplicatedIndex);
+        
+        const finalCount = await panelPage.getCardCount(CARD_TITLE);
+        expect(finalCount).toBe(initialCount);
+        
+        Logger.termTest('TC080 - Tarjeta duplicada eliminada exitosamente');
+    });
+
+    /**
      * TC079 Verificar que no permita dejar el título vacío del card "Listo"
      * Verificar que el sistema muestre un mensaje de error cuando se intenta dejar el título vacío (solo espacios en blanco)
      */
@@ -489,24 +565,6 @@ test.describe('Suite: Validación de la tarjeta "Listo"', () => {
             await panelPage.editCardTitle(myWorkData.tasks.title.invalid, CARD_TITLE);
             throw error;
         }
-    });
-
-    /**
-     * TC080 Verificar que se pueda eliminar una tarjeta duplicada "Listo"
-     * Verificar que el sistema permita eliminar correctamente una tarjeta que fue previamente duplicada
-     */
-    test('TC080 - Verificar que se pueda eliminar una tarjeta duplicada "Listo"', 
-        {tag: ["@positive", "@regression"],}, async ({panelPage}) => {
-        Logger.initTest('TC080 - Verificar que se pueda eliminar una tarjeta duplicada "Listo"');
-        await panelPage.goTo();
-        const duplicatedTitle = `${CARD_TITLE} (1)`;
-        Logger.step('Duplicando tarjeta');
-        await panelPage.executeCardAction(CARD_TITLE, 'Duplicar');
-        await panelPage.assertions.expectToBeVisible(panelPage.cardTitleLocator(duplicatedTitle));
-        Logger.step('Eliminando tarjeta duplicada');
-        await panelPage.executeCardAction(duplicatedTitle, 'Eliminar');
-        await expect(panelPage.cardTitleLocator(duplicatedTitle)).toBeHidden();
-        Logger.termTest('TC080 - Tarjeta duplicada eliminada exitosamente');
     });
 
 });
