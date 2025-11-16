@@ -1,20 +1,17 @@
-import { test as setup, expect } from '@playwright/test';
+import { test as setup } from '@playwright/test';
 import path from 'path';
+import { LoginPage } from '../pages/LoginPage';
+import { Config } from '../utils/config';
 
 const authFile = path.join(__dirname, '../playwright/.auth/user.json');
 
-setup('authenticate', async ({ page }) => {
-  await page.goto('https://monday.com/lang/es');
-  const loginLink = page.locator("[href*='//auth.monday.com/login']").first();
-  await loginLink.click();
-  const username = page.locator("#user_email").first();
-  await username.fill('srfgsdrge@gmail.com');
-  const nextBtn = page.locator("[data-testid='button']");
-  await nextBtn.click();
-  const password = page.locator("#user_password").first();
-  const currentPassword = 'chocomei7v7';
-  await password.fill(currentPassword);
-  await nextBtn.click();
-  await page.waitForURL('https://srfgsdrges-team.monday.com/');
+setup('authenticate', async ({ page}) => {
+  const loginPage = new LoginPage(page);
+  const email = Config.MONDAY_EMAIL || 'srfgsdrge@gmail.com';
+  const password = Config.MONDAY_PASSWORD || 'chocomei7v7';
+  const expectedUrl = Config.BASE_URL || 'https://srfgsdrges-team.monday.com/';
+
+  await loginPage.login(email, password);
+  await loginPage.waitForSuccessfulLogin(expectedUrl);
   await page.context().storageState({ path: authFile });
 });

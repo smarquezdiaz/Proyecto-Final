@@ -4,6 +4,7 @@ import { Logger } from '../helper/logger/Logger';
 import randomstring from 'randomstring';
 import { dateFormatted } from "../utils/utils"
 import { getTestData } from '../utils/utils';
+import Config from '../utils/config';
 
 const testData = getTestData();
 const myProfileData = testData.profile;
@@ -25,6 +26,7 @@ test.describe('Suite: Validación del campo "Teléfono"', () => {
         Logger.initTest('TC025 - Verificar que permita agregar un número de teléfono válido');
         Logger.step('Actualizando campo teléfono');
         await profilePage.updateField('Teléfono', myProfileData.phone.valid);
+        await profilePage.assertions.expectToBeVisible(profilePage.errorFieldMessage);
         Logger.termTest('TC025 - Teléfono válido agregado exitosamente');
     });
 
@@ -37,6 +39,7 @@ test.describe('Suite: Validación del campo "Teléfono"', () => {
         Logger.initTest('TC026 - Verificar que no permita agregar un número de teléfono con 1 dígito');
         Logger.step('Intentando agregar teléfono con 1 dígito');
         await profilePage.updateField('Teléfono', myProfileData.phone.invalidShort);
+        await profilePage.assertions.expectToBeVisible(profilePage.errorFieldMessage);
         Logger.termTest('TC026 - Validación de teléfono corto completada');
     });
 
@@ -49,6 +52,7 @@ test.describe('Suite: Validación del campo "Teléfono"', () => {
         Logger.initTest('TC027 - Verificar que no permita agregar un número de teléfono con caracteres');
         Logger.step('Intentando agregar teléfono con caracteres alfabéticos');
         await profilePage.updateField('Teléfono', myProfileData.phone.invalidLetter);
+        await profilePage.assertions.expectToBeVisible(profilePage.errorFieldMessage);
         Logger.termTest('TC027 - Validación de caracteres completada');
     });
 
@@ -61,6 +65,7 @@ test.describe('Suite: Validación del campo "Teléfono"', () => {
         Logger.initTest('TC028 - Verificar que no permita agregar un número de teléfono con caracteres especiales');
         Logger.step('Intentando agregar teléfono con caracteres especiales');
         await profilePage.updateField('Teléfono', myProfileData.phone.invalidSpecialChar);
+        await profilePage.assertions.expectToBeVisible(profilePage.errorFieldMessage);
         Logger.termTest('TC028 - Validación de caracteres especiales completada');
     });
 
@@ -73,6 +78,7 @@ test.describe('Suite: Validación del campo "Teléfono"', () => {
         Logger.initTest('TC029 - Verificar que no permita agregar un número de teléfono negativo');
         Logger.step('Intentando agregar teléfono negativo');
         await profilePage.updateField('Teléfono', myProfileData.phone.invalidNegative);
+        await profilePage.assertions.expectToBeVisible(profilePage.errorFieldMessage);
         Logger.termTest('TC029 - Validación de número negativo completada');
     });
 
@@ -85,6 +91,7 @@ test.describe('Suite: Validación del campo "Teléfono"', () => {
         Logger.initTest('TC030 - Verificar que no permita agregar un número de teléfono con muchos dígitos');
         Logger.step('Intentando agregar teléfono con demasiados dígitos');
         await profilePage.updateField('Teléfono', myProfileData.phone.invalidLong);
+        await profilePage.assertions.expectToBeVisible(profilePage.errorFieldMessage);
         Logger.termTest('TC030 - Validación de teléfono largo completada');
     });
 
@@ -115,6 +122,7 @@ test.describe('Suite: Validación del campo "Ubicación"', () => {
         Logger.initTest('TC032 - Verificar que no permita agregar una ubicación vacía');
         Logger.step('Intentando agregar ubicación vacía');
         await profilePage.updateField('Ubicación', myProfileData.location.invalid);
+        await profilePage.assertions.expectToBeVisible(profilePage.errorFieldMessage);
         Logger.termTest('TC032 - Validación de ubicación vacía completada');
     });
 
@@ -122,11 +130,12 @@ test.describe('Suite: Validación del campo "Ubicación"', () => {
      * TC033 Verificar que no permita agregar una ubicación con espacios vacíos
      * Verificar que el sistema muestre un mensaje de error al intentar guardar una ubicación que contiene solo espacios en blanco
      */
-    test.fail('TC033 - Verificar que no permita agregar una ubicación con espacios vacíos', 
+    test('TC033 - Verificar que no permita agregar una ubicación con espacios vacíos', 
         {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
         Logger.initTest('TC033 - Verificar que no permita agregar una ubicación con espacios vacíos');
         Logger.step('Intentando agregar ubicación con solo espacios');
         await profilePage.updateField('Ubicación', myProfileData.location.invalidSpaces);
+        await profilePage.assertions.expectToBeVisible(profilePage.errorFieldMessage);
         Logger.termTest('TC033 - Validación de espacios vacíos completada');
     });
 
@@ -157,6 +166,7 @@ test.describe('Suite: Validación del campo "Teléfono Móvil"', () => {
         Logger.initTest('TC035 - Verificar que no permita agregar un número de teléfono móvil con 1 dígito');
         Logger.step('Intentando agregar teléfono móvil con 1 dígito');
         await profilePage.updateField('Teléfono móvil', myProfileData.phone.invalidShort);
+        await profilePage.assertions.expectToBeVisible(profilePage.errorFieldMessage);
         Logger.termTest('TC035 - Validación de teléfono móvil corto completada');
     });
 
@@ -169,6 +179,7 @@ test.describe('Suite: Validación del campo "Teléfono Móvil"', () => {
         Logger.initTest('TC036 - Verificar que no permita agregar un número de teléfono móvil con caracteres');
         Logger.step('Intentando agregar teléfono móvil con caracteres');
         await profilePage.updateField('Teléfono móvil', myProfileData.phone.invalidLetter);
+        await profilePage.assertions.expectToBeVisible(profilePage.errorFieldMessage);
         Logger.termTest('TC036 - Validación de caracteres completada');
     });
 
@@ -181,6 +192,7 @@ test.describe('Suite: Validación del campo "Teléfono Móvil"', () => {
         Logger.initTest('TC037 - Verificar que no permita agregar un número de teléfono móvil con caracteres especiales');
         Logger.step('Intentando agregar teléfono móvil con caracteres especiales');
         await profilePage.updateField('Teléfono móvil', myProfileData.phone.invalidSpecialChar);
+        await profilePage.assertions.expectToBeVisible(profilePage.errorFieldMessage);
         Logger.termTest('TC037 - Validación de caracteres especiales completada');
     });
 
@@ -193,6 +205,7 @@ test.describe('Suite: Validación del campo "Teléfono Móvil"', () => {
         Logger.initTest('TC038 - Verificar que no permita agregar un número de teléfono móvil negativo');
         Logger.step('Intentando agregar teléfono móvil negativo');
         await profilePage.updateField('Teléfono móvil', myProfileData.phone.invalidNegative);
+        await profilePage.assertions.expectToBeVisible(profilePage.errorFieldMessage);
         Logger.termTest('TC038 - Validación de número negativo completada');
     });
 
@@ -205,6 +218,7 @@ test.describe('Suite: Validación del campo "Teléfono Móvil"', () => {
         Logger.initTest('TC039 - Verificar que no permita agregar un número de teléfono móvil con muchos dígitos');
         Logger.step('Intentando agregar teléfono móvil con demasiados dígitos');
         await profilePage.updateField('Teléfono móvil', myProfileData.phone.invalidLong);
+        await profilePage.assertions.expectToBeVisible(profilePage.errorFieldMessage);
         Logger.termTest('TC039 - Validación de teléfono móvil largo completada');
     });
 
@@ -232,7 +246,7 @@ test.describe('Suite: Validación del campo "Cumpleaños"', () => {
      * TC041 Verificar que no permita agregar una fecha de cumpleaños con fecha futura
      * Verificar que el sistema muestre un mensaje de error al intentar agregar una fecha de cumpleaños en el futuro
      */
-    test.fail('TC041 - Verificar que no permita agregar una fecha de cumpleaños con fecha futura', 
+    test('TC041 - Verificar que no permita agregar una fecha de cumpleaños con fecha futura', 
         {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
         Logger.initTest('TC041 - Verificar que no permita agregar una fecha de cumpleaños con fecha futura');
         Logger.step('Intentando agregar fecha futura');
@@ -245,7 +259,7 @@ test.describe('Suite: Validación del campo "Cumpleaños"', () => {
      * TC042 Verificar que no permita agregar una fecha de cumpleaños con año inválido
      * Verificar que el sistema muestre un mensaje de error al intentar agregar una fecha de cumpleaños con un año inválido
      */
-    test.fail('TC042 - Verificar que no permita agregar una fecha de cumpleaños con año inválido', 
+    test('TC042 - Verificar que no permita agregar una fecha de cumpleaños con año inválido', 
         {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
         Logger.initTest('TC042 - Verificar que no permita agregar una fecha de cumpleaños con año inválido');
         Logger.step('Intentando agregar fecha con año inválido');
@@ -305,7 +319,7 @@ test.describe('Suite: Validación del campo "Aniversario de trabajo"', () => {
      * TC046 Verificar que no permita agregar una fecha de aniversario de trabajo con fecha futura
      * Verificar que el sistema muestre un mensaje de error al intentar agregar una fecha de aniversario en el futuro
      */
-    test.fail('TC046 - Verificar que no permita agregar una fecha de aniversario de trabajo con fecha futura', 
+    test('TC046 - Verificar que no permita agregar una fecha de aniversario de trabajo con fecha futura', 
         {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
         Logger.initTest('TC046 - Verificar que no permita agregar una fecha de aniversario de trabajo con fecha futura');
         Logger.step('Intentando agregar fecha futura');
@@ -318,7 +332,7 @@ test.describe('Suite: Validación del campo "Aniversario de trabajo"', () => {
      * TC047 Verificar que no permita agregar una fecha de aniversario de trabajo con año inválido
      * Verificar que el sistema muestre un mensaje de error al intentar agregar una fecha de aniversario con un año inválido
      */
-    test.fail('TC047 - Verificar que no permita agregar una fecha de aniversario de trabajo con año inválido', 
+    test('TC047 - Verificar que no permita agregar una fecha de aniversario de trabajo con año inválido', 
         {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
         Logger.initTest('TC047 - Verificar que no permita agregar una fecha de aniversario de trabajo con año inválido');
         Logger.step('Intentando agregar fecha con año inválido');
@@ -359,19 +373,6 @@ test.describe('Suite: Validación del campo "Aniversario de trabajo"', () => {
 
 test.describe('Suite: Validación del campo "Contraseña"', () => {
     Logger.initTestSuite('Iniciando Suite: Validación del campo "Contraseña"');
-
-    /**
-     * TC050 Verificar que permita cambiar a una contraseña válida
-     * Verificar que el sistema permita cambiar la contraseña cuando se proporciona una contraseña válida y la contraseña actual correcta
-     */
-    test('TC050 - Verificar que permita cambiar a una contraseña válida', 
-        {tag: ["@smoke", "@positive", "@regression"],}, async ({page, profilePage}) => {
-        Logger.initTest('TC050 - Verificar que permita cambiar a una contraseña válida');
-        Logger.step('Actualizando contraseña');
-        await profilePage.updatePassword(myProfileData.password.current, myProfileData.password.validNew, myProfileData.password.validNew);
-        await expect(profilePage.succeededMessage).toBeVisible();
-        Logger.termTest('TC050 - Contraseña cambiada exitosamente');
-    });
 
     /**
      * TC051 Verificar que no permita cambiar a una contraseña válida con la contraseña actual incorrecta
@@ -440,12 +441,29 @@ test.describe('Suite: Validación del campo "Contraseña"', () => {
     });
 
     /**
+     * TC050 Verificar que permita cambiar a una contraseña válida
+     * Verificar que el sistema permita cambiar la contraseña cuando se proporciona una contraseña válida y la contraseña actual correcta
+     */
+    test('TC050 - Verificar que permita cambiar a una contraseña válida', 
+        {tag: ["@smoke", "@positive", "@regression"],}, async ({page, profilePage}) => {
+        Logger.initTest('TC050 - Verificar que permita cambiar a una contraseña válida');
+        Logger.step('Actualizando contraseña');
+        await profilePage.updatePassword(myProfileData.password.current, myProfileData.password.validNew, myProfileData.password.validNew);
+        await expect(profilePage.succeededMessage).toBeVisible();
+        Logger.termTest('TC050 - Contraseña cambiada exitosamente');
+    });
+
+    /**
      * TC056 Verificar que no permita cambiar a una contraseña con espacios vacíos
      * Verificar que el sistema muestre un mensaje de error cuando se intenta establecer una contraseña que contiene espacios vacíos
      */
-    test.fail('TC056 - Verificar que no permita cambiar a una contraseña con espacios vacíos', 
-        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+    test('TC056 - Verificar que no permita cambiar a una contraseña con espacios vacíos', 
+        {tag: ["@negative", "@regression"],}, async ({page, profilePage, loginPage}) => {
         Logger.initTest('TC056 - Verificar que no permita cambiar a una contraseña con espacios vacíos');
+        Logger.step('Logueando con nueva contraseña');
+        const email = Config.MONDAY_EMAIL || 'srfgsdrge@gmail.com';
+        const password = myProfileData.password.validNew;
+        await loginPage.login(email, password);
         Logger.step('Intentando cambiar a contraseña con espacios vacíos');
         await profilePage.updatePassword(myProfileData.password.validNew, myProfileData.password.invalidSpaces, myProfileData.password.invalidSpaces);
         await expect(profilePage.errorMessage).toBeVisible();

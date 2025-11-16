@@ -12,9 +12,9 @@ export class BasePage {
 
   async goto(url: string): Promise<void> {
     await this.page.goto(url, { 
-      waitUntil: 'networkidle',
+      // waitUntil: 'networkidle',
     });
-    await this.page.waitForLoadState('domcontentloaded');
+    // await this.page.waitForLoadState('domcontentloaded');
   }
 
   async click(locator: Locator): Promise<void> {

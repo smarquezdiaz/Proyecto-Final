@@ -92,7 +92,7 @@ test.describe('Suite: Validación de la tarjeta "Tareas Importantes"', () => {
      * TC060 Verificar que no permita editar el título del card "Tareas Importantes" con más de 255 caracteres
      * Verificar que el sistema muestre un mensaje de error cuando se intenta editar el título con más de 255 caracteres
      */
-    test.fail('TC060 - Verificar que no permita editar el título del card "Tareas Importantes" con más de 255 caracteres', 
+    test('TC060 - Verificar que no permita editar el título del card "Tareas Importantes" con más de 255 caracteres', 
         {tag: ["@negative", "@regression"],}, async ({panelPage}) => {
         try {
             Logger.initTest('TC060 - Verificar que no permita editar el título del card "Tareas Importantes" con más de 255 caracteres');
@@ -146,7 +146,7 @@ test.describe('Suite: Validación de la tarjeta "Tareas Importantes"', () => {
      * TC061 Verificar que no permita dejar el título vacío del card "Tareas Importantes"
      * Verificar que el sistema muestre un mensaje de error cuando se intenta dejar el título vacío (solo espacios en blanco)
      */
-    test.fail('TC061 - Verificar que no permita dejar el título vacío del card "Tareas Importantes"', 
+    test('TC061 - Verificar que no permita dejar el título vacío del card "Tareas Importantes"', 
         {tag: ["@negative", "@regression"],}, async ({panelPage}) => {
         try {
             Logger.initTest('TC061 - Verificar que no permita dejar el título vacío del card "Tareas Importantes"');
@@ -240,7 +240,7 @@ test.describe('Suite: Validación de la tarjeta "En Curso"', () => {
      * TC066 Verificar que no permita editar el título del card "En Curso" con más de 255 caracteres
      * Verificar que el sistema muestre un mensaje de error cuando se intenta editar el título con más de 255 caracteres
      */
-    test.fail('TC066 - Verificar que no permita editar el título del card "En Curso" con más de 255 caracteres', 
+    test('TC066 - Verificar que no permita editar el título del card "En Curso" con más de 255 caracteres', 
         {tag: ["@negative", "@regression"],}, async ({panelPage}) => {
         try {
             Logger.initTest('TC066 - Verificar que no permita editar el título del card "En Curso" con más de 255 caracteres');
@@ -283,7 +283,7 @@ test.describe('Suite: Validación de la tarjeta "En Curso"', () => {
      * TC067 Verificar que no permita dejar el título vacío del card "En Curso"
      * Verificar que el sistema muestre un mensaje de error cuando se intenta dejar el título vacío (solo espacios en blanco)
      */
-    test.fail('TC067 - Verificar que no permita dejar el título vacío del card "En Curso"', 
+    test('TC067 - Verificar que no permita dejar el título vacío del card "En Curso"', 
         {tag: ["@negative", "@regression"],}, async ({panelPage}) => {
         try {
             Logger.initTest('TC067 - Verificar que no permita dejar el título vacío del card "En Curso"');
@@ -374,7 +374,7 @@ test.describe('Suite: Validación de la tarjeta "Detenido"', () => {
      * TC072 Verificar que no permita editar el título del card "Detenido" con más de 255 caracteres
      * Verificar que el sistema muestre un mensaje de error cuando se intenta editar el título con más de 255 caracteres
      */
-    test.fail('TC072 - Verificar que no permita editar el título del card "Detenido" con más de 255 caracteres', 
+    test('TC072 - Verificar que no permita editar el título del card "Detenido" con más de 255 caracteres', 
         {tag: ["@negative", "@regression"],}, async ({panelPage}) => {
         try {
             Logger.initTest('TC072 - Verificar que no permita editar el título del card "Detenido" con más de 255 caracteres');
@@ -417,7 +417,7 @@ test.describe('Suite: Validación de la tarjeta "Detenido"', () => {
      * TC073 Verificar que no permita dejar el título vacío del card "Detenido"
      * Verificar que el sistema muestre un mensaje de error cuando se intenta dejar el título vacío (solo espacios en blanco)
      */
-    test.fail('TC073 - Verificar que no permita dejar el título vacío del card "Detenido"', 
+    test('TC073 - Verificar que no permita dejar el título vacío del card "Detenido"', 
         {tag: ["@negative", "@regression"],}, async ({panelPage}) => {
         try {
             Logger.initTest('TC073 - Verificar que no permita dejar el título vacío del card "Detenido"');
@@ -508,7 +508,7 @@ test.describe('Suite: Validación de la tarjeta "Listo"', () => {
      * TC078 Verificar que no permita editar el título del card "Listo" con más de 255 caracteres
      * Verificar que el sistema muestre un mensaje de error cuando se intenta editar el título con más de 255 caracteres
      */
-    test.fail('TC078 - Verificar que no permita editar el título del card "Listo" con más de 255 caracteres', 
+    test('TC078 - Verificar que no permita editar el título del card "Listo" con más de 255 caracteres', 
         {tag: ["@negative", "@regression"],}, async ({panelPage}) => {
         try {
             Logger.initTest('TC078 - Verificar que no permita editar el título del card "Listo" con más de 255 caracteres');
@@ -551,7 +551,7 @@ test.describe('Suite: Validación de la tarjeta "Listo"', () => {
      * TC079 Verificar que no permita dejar el título vacío del card "Listo"
      * Verificar que el sistema muestre un mensaje de error cuando se intenta dejar el título vacío (solo espacios en blanco)
      */
-    test.fail('TC079 - Verificar que no permita dejar el título vacío del card "Listo"', 
+    test('TC079 - Verificar que no permita dejar el título vacío del card "Listo"', 
         {tag: ["@negative", "@regression"],}, async ({panelPage}) => {
         try {
             Logger.initTest('TC079 - Verificar que no permita dejar el título vacío del card "Listo"');

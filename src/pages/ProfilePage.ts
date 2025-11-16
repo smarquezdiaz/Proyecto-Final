@@ -16,6 +16,7 @@ export class ProfilePage extends BasePage {
     passwordErrorMessage: Locator;
     passwordRepeatedErrorMessage: Locator;
     passwordMissmatchErrorMessage: Locator;
+    errorFieldMessage: Locator;
 
     constructor(page: Page) {
         super(page);
@@ -31,6 +32,7 @@ export class ProfilePage extends BasePage {
         this.passwordErrorMessage = this.getByText('The password has to contain at least 8 characters');
         this.passwordRepeatedErrorMessage = this.getByText('The password cannot have only one letter');
         this.passwordMissmatchErrorMessage = this.getByText('La confirmación de contraseña no coincide con la contraseña nueva');
+        this.errorFieldMessage = this.getByText('El campo es inválido');
     }
 
     async updateField(campo: string, valor: string) {

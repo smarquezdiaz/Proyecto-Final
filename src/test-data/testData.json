@@ -58,7 +58,7 @@
       "invalidSpaces": "       "
     },
     "dates": {
-      "validBirthday": "27042001",
+      "validBirthday": "04272001",
       "invalidFuture": "23112025",
       "invalidYear": "231112345",
       "invalidMonth": "01152025",
