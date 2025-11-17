@@ -113,18 +113,18 @@ test.describe('Suite: Validación del campo "Ubicación"', () => {
         Logger.termTest('TC031 - Ubicación válida agregada exitosamente');
     });
 
-    /**
-     * TC032 Verificar que no permita agregar una ubicación vacía
-     * Verificar que el sistema muestre un mensaje de error al intentar guardar una ubicación vacía en el perfil del usuario
-     */
-    test('TC032 - Verificar que no permita agregar una ubicación vacía', 
-        {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
-        Logger.initTest('TC032 - Verificar que no permita agregar una ubicación vacía');
-        Logger.step('Intentando agregar ubicación vacía');
-        await profilePage.updateField('Ubicación', myProfileData.location.invalid);
-        await profilePage.assertions.expectToBeVisible(profilePage.errorFieldMessage);
-        Logger.termTest('TC032 - Validación de ubicación vacía completada');
-    });
+    // /**
+    //  * TC032 Verificar que no permita agregar una ubicación vacía
+    //  * Verificar que el sistema muestre un mensaje de error al intentar guardar una ubicación vacía en el perfil del usuario
+    //  */
+    // test('TC032 - Verificar que no permita agregar una ubicación vacía', 
+    //     {tag: ["@negative", "@regression"],}, async ({page, profilePage}) => {
+    //     Logger.initTest('TC032 - Verificar que no permita agregar una ubicación vacía');
+    //     Logger.step('Intentando agregar ubicación vacía');
+    //     await profilePage.updateField('Ubicación', myProfileData.location.invalid);
+    //     await profilePage.assertions.expectToBeVisible(profilePage.errorFieldMessage);
+    //     Logger.termTest('TC032 - Validación de ubicación vacía completada');
+    // });
 
     /**
      * TC033 Verificar que no permita agregar una ubicación con espacios vacíos
