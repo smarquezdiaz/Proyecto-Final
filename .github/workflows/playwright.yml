@@ -42,5 +42,3 @@ jobs:
             tests/test-panel.test.ts \
             tests/test-my-work.test.ts \
             tests/test-profile.test.ts
-        env:
-          PLAYWRIGHT_HEADLESS: 'true'
