@@ -59,10 +59,10 @@
     },
     "dates": {
       "validBirthday": "04272001",
-      "invalidFuture": "23112025",
-      "invalidYear": "231112345",
-      "invalidMonth": "01152025",
-      "invalidDay": "32112025"
+      "invalidFuture": "11232025",
+      "invalidYear": "112312345",
+      "invalidMonth": "15012025",
+      "invalidDay": "11322025"
     },
     "password": {
       "current": "chocomei7v7",

@@ -5,14 +5,29 @@ export function dateFormatted(dateString: string): string {
     let year: string;
     let month: string;
     let day: string;
+
     if (dateString.includes('-')) {
         [year, month, day] = dateString.split('-');
     } else {
-        day = dateString.substring(0, 2);
-        month = dateString.substring(2, 4);
+        if (dateString.length !== 8) {
+            throw new Error(`Invalid date format: ${dateString}. Expected 8 digits (MMDDYYYY)`);
+        }
+        month = dateString.substring(0, 2);
+        day = dateString.substring(2, 4);
         year = dateString.substring(4, 8);
     }
-    const date = new Date(Number(year), Number(month) - 1, Number(day));
+    const monthNum = Number(month);
+    const dayNum = Number(day);
+    
+    if (monthNum < 1 || monthNum > 12) {
+        throw new Error(`Invalid month: ${month}`);
+    }
+    
+    if (dayNum < 1 || dayNum > 31) {
+        throw new Error(`Invalid day: ${day}`);
+    }
+
+    const date = new Date(Number(year), monthNum - 1, dayNum);
     const monthName = date.toLocaleDateString('en-US', { month: 'short' });
     return `${monthName} ${date.getDate()}, ${date.getFullYear()}`;
 }
