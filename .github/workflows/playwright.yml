@@ -36,9 +36,9 @@ jobs:
       - name: Instalar Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Ejecutar tests de los Módulos
+      - name: Ejecutar tests de los Módulos (Headless)
         run: |
-          npx playwright test \
-            tests/test-profile.test.ts \
+          PLAYWRIGHT_HEADLESS=1 npx playwright test \
             tests/test-panel.test.ts \
-            tests/test-my-work.test.ts
+            tests/test-my-work.test.ts \
+            tests/test-profile.test.ts
