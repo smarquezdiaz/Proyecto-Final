@@ -2,7 +2,7 @@ import { expect } from '@playwright/test';
 import { test } from '../fixtures/fixtures'
 import { Logger } from '../helper/logger/Logger';
 import randomstring from 'randomstring';
-import { dateFormatted } from "../utils/utils"
+import { assertPhone, dateFormatted } from "../utils/utils"
 import { getTestData } from '../utils/utils';
 import Config from '../utils/config';
 
@@ -22,8 +22,10 @@ test.describe('Suite: Validación del campo "Teléfono"', () => {
      * Verificar que se pueda agregar un número de teléfono válido (números enteros) en el perfil del usuario
      */
     test('TC025 - Verificar que permita agregar un número de teléfono válido', 
-        {tag: ["@smoke", "@positive", "@regression"],}, async ({page, profilePage}) => {
+        {tag: ["@smoke", "@positive", "@regression"]}, 
+        async ({page, profilePage}) => {
         Logger.initTest('TC025 - Verificar que permita agregar un número de teléfono válido');
+        expect(() => assertPhone(myProfileData.phone.valid)).not.toThrow();
         Logger.step('Actualizando campo teléfono');
         await profilePage.updateField('Teléfono', myProfileData.phone.valid);
         Logger.termTest('TC025 - Teléfono válido agregado exitosamente');

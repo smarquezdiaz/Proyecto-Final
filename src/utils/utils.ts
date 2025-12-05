@@ -41,3 +41,22 @@ export function getTestData() {
 export function generateString(char: string, length: number): string {
     return char.repeat(length);
 }
+
+export function assertPhone(phone: string | number): boolean {
+  const phoneStr = String(phone).trim();
+
+  if (!phoneStr) {
+    throw new Error('El número de teléfono no puede estar vacío');
+  }
+
+  if (!/^\d+$/.test(phoneStr)) {
+    throw new Error('El número de teléfono solo debe contener dígitos');
+  }
+
+  const length = phoneStr.length;
+  if (length < 7 || length > 15) {
+    throw new Error('El número de teléfono debe tener entre 8 y 15 dígitos');
+  }
+
+  return true;
+}
