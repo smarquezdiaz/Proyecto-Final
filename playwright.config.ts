@@ -15,7 +15,7 @@ const config: PlaywrightTestConfig = {
     headless: true,
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-  },
+  }, 
   projects: [
     // Setup project
     // { name: 'setup', testMatch: /.*\.setup\.ts/ },
