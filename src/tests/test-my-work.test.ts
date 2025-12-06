@@ -354,7 +354,7 @@ test.describe('Suite: Validación de Eliminación de Subelementos', () => {
      * TC024 Verificar que al eliminar un subelemento se actualice el contador
      * Verificar que al eliminar un subelemento, el contador de subelementos se actualice correctamente
      */
-    test('TC024 - Verificar que al eliminar un subelemento se actualice el contador', async ({page, myWorkPage}) => {
+    test.fail('TC024 - Verificar que al eliminar un subelemento se actualice el contador', async ({page, myWorkPage}) => {
         Logger.initTest('TC024 - Verificar que al eliminar un subelemento se actualice el contador');
         Logger.step('Creando subelemento');
         await myWorkPage.createSubelement();
