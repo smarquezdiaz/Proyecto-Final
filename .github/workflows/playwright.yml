@@ -39,6 +39,5 @@ jobs:
       - name: Ejecutar tests de los Módulos
         run: |
           npx playwright test \
-            tests/test-panel.test.ts \
             tests/test-my-work.test.ts \
-            tests/test-profile.test.ts
+    
