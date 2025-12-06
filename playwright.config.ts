@@ -12,7 +12,7 @@ const config: PlaywrightTestConfig = {
   reporter: [["line"], ["allure-playwright"]],
   workers: 1,
   use: {
-    headless: false,
+    headless: true,
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
   },

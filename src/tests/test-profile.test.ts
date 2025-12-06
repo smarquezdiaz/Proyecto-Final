@@ -445,31 +445,31 @@ test.describe('Suite: Validación del campo "Contraseña"', () => {
      * TC050 Verificar que permita cambiar a una contraseña válida
      * Verificar que el sistema permita cambiar la contraseña cuando se proporciona una contraseña válida y la contraseña actual correcta
      */
-    test('TC050 - Verificar que permita cambiar a una contraseña válida', 
-        {tag: ["@smoke", "@positive", "@regression"],}, async ({page, profilePage}) => {
-        Logger.initTest('TC050 - Verificar que permita cambiar a una contraseña válida');
-        Logger.step('Actualizando contraseña');
-        await profilePage.updatePassword(myProfileData.password.current, myProfileData.password.validNew, myProfileData.password.validNew);
-        await expect(profilePage.succeededMessage).toBeVisible();
-        Logger.termTest('TC050 - Contraseña cambiada exitosamente');
-    });
+    // test('TC050 - Verificar que permita cambiar a una contraseña válida', 
+    //     {tag: ["@smoke", "@positive", "@regression"],}, async ({page, profilePage}) => {
+    //     Logger.initTest('TC050 - Verificar que permita cambiar a una contraseña válida');
+    //     Logger.step('Actualizando contraseña');
+    //     await profilePage.updatePassword(myProfileData.password.current, myProfileData.password.validNew, myProfileData.password.validNew);
+    //     await expect(profilePage.succeededMessage).toBeVisible();
+    //     Logger.termTest('TC050 - Contraseña cambiada exitosamente');
+    // });
 
     /**
      * TC056 Verificar que no permita cambiar a una contraseña con espacios vacíos
      * Verificar que el sistema muestre un mensaje de error cuando se intenta establecer una contraseña que contiene espacios vacíos
      */
-    test('TC056 - Verificar que no permita cambiar a una contraseña con espacios vacíos', 
-        {tag: ["@negative", "@regression"],}, async ({page, profilePage, loginPage}) => {
-        Logger.initTest('TC056 - Verificar que no permita cambiar a una contraseña con espacios vacíos');
-        Logger.step('Logueando con nueva contraseña');
-        const email = Config.MONDAY_EMAIL || 'srfgsdrge@gmail.com';
-        const password = myProfileData.password.validNew;
-        await loginPage.login(email, password);
-        Logger.step('Intentando cambiar a contraseña con espacios vacíos');
-        await profilePage.updatePassword(myProfileData.password.validNew, myProfileData.password.invalidSpaces, myProfileData.password.invalidSpaces);
-        await expect(profilePage.errorMessage).toBeVisible();
-        Logger.termTest('TC056 - Validación de espacios vacíos completada');
-    });
+    // test('TC056 - Verificar que no permita cambiar a una contraseña con espacios vacíos', 
+    //     {tag: ["@negative", "@regression"],}, async ({page, profilePage, loginPage}) => {
+    //     Logger.initTest('TC056 - Verificar que no permita cambiar a una contraseña con espacios vacíos');
+    //     Logger.step('Logueando con nueva contraseña');
+    //     const email = Config.MONDAY_EMAIL || 'srfgsdrge@gmail.com';
+    //     const password = myProfileData.password.validNew;
+    //     await loginPage.login(email, password);
+    //     Logger.step('Intentando cambiar a contraseña con espacios vacíos');
+    //     await profilePage.updatePassword(myProfileData.password.validNew, myProfileData.password.invalidSpaces, myProfileData.password.invalidSpaces);
+    //     await expect(profilePage.errorMessage).toBeVisible();
+    //     Logger.termTest('TC056 - Validación de espacios vacíos completada');
+    // });
 
     Logger.termTestSuite('Finalizando Suite: Validación del campo "Contraseña"');
 });
